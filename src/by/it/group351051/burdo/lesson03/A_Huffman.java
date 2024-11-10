@@ -143,17 +143,25 @@ public class A_Huffman {
             priorityQueue.add(leaf);
         }
         //3. вынимая по два узла из очереди (для сборки родителя)
-       while (priorityQueue.size()>=2) {
+        if (priorityQueue.size()==1) {
+            // обработка случая с одним символом
             Node leaf1 = priorityQueue.poll();
             leaf1.fillCodes("0");
-            Node leaf2 = priorityQueue.poll();
-            leaf2.fillCodes("1");
-            Node internalNode = new InternalNode(leaf1, leaf2);
-           //и возвращая этого родителя обратно в очередь
-           //построим дерево кодирования Хаффмана.
-           //У родителя частоты детей складываются.
-            priorityQueue.add(internalNode);
-            //System.out.println(priorityQueue.poll().frequence);
+            priorityQueue.add(leaf1);
+        }
+        else {
+            while (priorityQueue.size() >= 2) {
+                Node leaf1 = priorityQueue.poll();
+                leaf1.fillCodes("0");
+                Node leaf2 = priorityQueue.poll();
+                leaf2.fillCodes("1");
+                Node internalNode = new InternalNode(leaf1, leaf2);
+                //и возвращая этого родителя обратно в очередь
+                //построим дерево кодирования Хаффмана.
+                //У родителя частоты детей складываются.
+                priorityQueue.add(internalNode);
+                //System.out.println(priorityQueue.poll().frequence);
+            }
         }
 
         //4. последний из родителей будет корнем этого дерева
