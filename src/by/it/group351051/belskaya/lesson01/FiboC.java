@@ -25,9 +25,43 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+
+        int pizanoPeriod = pizanoPeriod(m);
+
+        long nModPeriod = n % pizanoPeriod;
+
+        return fiboMod(nModPeriod, m);
     }
 
+    private int pizanoPeriod(int m) {
+        int a = 0, b = 1, p = 0;
 
+        for (int i = 0; i <= m * m; i++) {
+            int c = (a + b) % m;
+            a = b;
+            b = c;
+
+            if (a == 0 && b == 1) {
+                p = i + 1;
+                break;
+            }
+        }
+        return p;
+    }
+
+    private long fiboMod(long n, int m) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        long prev = 0, cur = 1, next;
+
+        for (long i = 2; i <= n; i++) {
+            next = (prev + cur) % m;
+            prev = cur;
+            cur = next;
+        }
+
+        return cur;
+    }
 }
 

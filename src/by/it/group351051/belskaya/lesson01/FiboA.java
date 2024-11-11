@@ -31,7 +31,7 @@ public class FiboA {
         //время O(2^n)
         if (n < 2) return n;
 
-        return calc(n - 1) + calc (n -2);
+        return calc(n - 1) + calc(n - 2);
     }
 
 
@@ -44,10 +44,7 @@ public class FiboA {
         if (n == 0) return BigInteger.ZERO;
         if (n == 1) return BigInteger.ONE;
 
-        return slowA(n-1).add(slowA(n -2));
+        return slowA(n - 1).add(slowA(n - 2));
     }
-
-
-
 }
 
