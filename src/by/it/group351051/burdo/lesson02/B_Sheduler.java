@@ -1,8 +1,7 @@
 package by.it.group351051.burdo.lesson02;
 
 import javax.lang.model.type.NullType;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 /*
 даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -29,12 +28,9 @@ public class B_Sheduler {
 
     public static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
-        Event[] events = {  new Event(0, 3),  new Event(0, 1), new Event(1, 2), new Event(3, 5),
-                new Event(1, 3),  new Event(1, 3), new Event(1, 3), new Event(3, 6),
-                new Event(2, 7),  new Event(2, 3), new Event(2, 7), new Event(7, 9),
-                new Event(3, 5),  new Event(2, 4), new Event(2, 3), new Event(3, 7),
-                new Event(4, 5),  new Event(6, 7), new Event(6, 9), new Event(7, 9),
-                new Event(8, 9),  new Event(4, 6), new Event(8, 10), new Event(7, 10)
+        Event[] events = {
+                new B_Sheduler.Event(0, 1), new B_Sheduler.Event(1, 2), new B_Sheduler.Event(1, 2), new B_Sheduler.Event(5, 7),
+                new B_Sheduler.Event(4, 8), new B_Sheduler.Event(8, 9), new B_Sheduler.Event(8, 8),
         };
 
 
@@ -73,6 +69,18 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
+
+        List<Event> filteredEvents = new ArrayList<>();
+
+        for (Event event : events) {
+            if (event.start >= from && event.stop <= to) {  // добавляем события, вписывающиеся во врменные рамки
+                filteredEvents.add(event);
+            }
+        }
+
+        // преобразуем обратно в массив
+        events = filteredEvents.toArray(new Event[0]);
+
         bubbleSort(events); // сортируем пришедшие ивенты
         List<Event> result;
         result = new ArrayList<>();
@@ -84,11 +92,6 @@ public class B_Sheduler {
             int startStopDelta = 1000000000; // задаем для дельты между концом и началом события очень большое значение
             Event nextEvent = null;
             for (int j = 0; j < events.length; j++) {
-
-                // проверяем не выходит ли событие за временные рамки
-                if (events[i].start <= from || events[i].stop >= to || events[j].start <= from || events[j].stop >= to) {
-                    continue;
-                }
 
                 int currentDelta = events[j].start - events[i].stop; // вычисляем дельту,
                 // чтобы следующим ивентом сделать ближайший (с минимальной дельтой)
@@ -103,6 +106,7 @@ public class B_Sheduler {
                 result.add(nextEvent);
             }
         }
+
        return result; //вернем итог
     }
 }
