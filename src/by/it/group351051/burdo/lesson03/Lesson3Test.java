@@ -12,9 +12,9 @@ public class Lesson3Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:
-    Name:               Test a_khmelev (тут ваша фамилия)
+    Name:               Test burdo
     Test kind:          All in package
-    Package:            by.it.a_khmelev (тут ваша фамилия)
+    Package:            by.it.group351051.burdo
     Search for test:    In whole project
     */
 
@@ -27,6 +27,12 @@ public class Lesson3Test {
         String result = instance.encode(f);
         boolean ok=result.equals("01001100100111");
         assertTrue("A failed", ok);
+
+        f = new File(root + "by/it/group351051/burdo/lesson03/dataHuffmanTest.txt");
+        instance = new A_Huffman();
+        result = instance.encode(f);
+        ok=result.equals("111111010100011100001010011");
+        assertTrue("A failed", ok);
     }
 
     @Test
@@ -37,6 +43,12 @@ public class Lesson3Test {
         String result = instance.decode(f);
         boolean ok=result.equals("abacabad");
         assertTrue("B failed", ok);
+
+        f = new File(root + "by/it/group351051/burdo/lesson03/encodeHuffmanTest.txt");
+        instance = new B_Huffman();
+        result = instance.decode(f);
+        ok=result.equals("helloWorld");
+        assertTrue("B failed", ok);
     }
     @Test
     public void C() throws Exception {
@@ -45,6 +57,12 @@ public class Lesson3Test {
         C_HeapMax instance = new C_HeapMax();
         Long res=instance.findMaxValue(stream);
         boolean ok=(res==500);
+        assertTrue("C failed", ok);
+
+        stream = new FileInputStream(root + "by/it/group351051/burdo/lesson03/heapDataTest.txt");
+        instance = new C_HeapMax();
+        res=instance.findMaxValue(stream);
+        ok=(res==400);
         assertTrue("C failed", ok);
     }
 
