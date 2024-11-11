@@ -11,9 +11,9 @@ public class Lesson2Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:
-    Name:               Test a_khmelev (тут ваша фамилия)
+    Name:               Test burdo
     Test kind:          All in package
-    Package:            by.it.a_khmelev (тут ваша фамилия)
+    Package:            by.it.group351051.burdo
     Search for test:    In whole project
     */
 
@@ -24,6 +24,16 @@ public class Lesson2Test {
         double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
         List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
         boolean ok=starts.toString().equals("[1.0, 2.2, 3.7, 5.5, 8.1]");
+        assertTrue("slowA failed", ok);
+
+        events=new double[]{1, 1.1, 0};
+        starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
+        ok=starts.toString().equals("[0.0, 1.1]");
+        assertTrue("slowA failed", ok);
+
+        events=new double[]{1, 1.1, 1.11};;
+        starts=instance.calcStartTimes(events,0.09); //рассчитаем моменты старта, с длинной сеанса 1
+        ok=starts.toString().equals("[1.0, 1.1]");
         assertTrue("slowA failed", ok);
     }
     @Test
@@ -45,9 +55,14 @@ public class Lesson2Test {
     @Test
     public void C_GreedyKnapsack() throws Exception {
         String root=System.getProperty("user.dir")+"/src/";
-        File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        File f=new File(root+"by/it/group351051/burdo/lesson02/greedyKnapsack.txt");
         double costFinal=new C_GreedyKnapsack().calc(f);
         boolean ok=costFinal==200;
+        assertTrue("B_Sheduler failed", ok);
+
+        f=new File(root+"by/it/group351051/burdo/lesson02/greedyKnapsackWithZeroWeightItem.txt");
+        costFinal=new C_GreedyKnapsack().calc(f);
+        ok=costFinal==170.08;
         assertTrue("B_Sheduler failed", ok);
     }
 }

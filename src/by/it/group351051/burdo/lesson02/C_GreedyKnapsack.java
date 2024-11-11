@@ -36,7 +36,12 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            if (this.cost/this.weight < o.cost/o.weight) {
+            if (this.weight == 0) {
+                return 0;
+            } else if (o.weight == 0) { // если предмет невесомый, но дорогой - такой предмет в приоритете
+                return 1;
+            }
+            else if (this.cost/this.weight < o.cost/o.weight) {
                 return 1;
             }
             return 0;
