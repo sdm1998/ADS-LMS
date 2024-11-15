@@ -43,4 +43,56 @@ public class Lesson4Test {
         assertTrue("A failed", ok);
     }
 
+
+    @Test
+    public void B() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson04/dataBTest.txt");
+        B_MergeSort instance = new B_MergeSort();
+        //long startTime = System.currentTimeMillis();
+        int[] result=instance.getMergeSort(stream);
+        //long finishTime = System.currentTimeMillis();
+        boolean ok=result.length>3;
+        int test[]=new int[result.length];
+        System.arraycopy(result,0,test,0,result.length);
+        Arrays.sort(test);
+        for (int i = 0; i < result.length; i++) {
+            ok=ok && (result[i]==test[i]);
+        }
+        assertTrue("B failed", ok);
+    }
+
+
+    @Test
+    public void B2() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson04/dataB.txt");
+        B_MergeSort instance = new B_MergeSort();
+        //long startTime = System.currentTimeMillis();
+        int[] result=instance.getMergeSort(stream);
+        //long finishTime = System.currentTimeMillis();
+        boolean ok=result.length>3;
+        int test[]=new int[result.length];
+        System.arraycopy(result,0,test,0,result.length);
+        Arrays.sort(test);
+        for (int i = 0; i < result.length; i++) {
+            ok=ok && (result[i]==test[i]);
+        }
+        assertTrue("B failed", ok);
+    }
+
+
+    @Test
+    public void C() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson04/dataC.txt");
+        C_GetInversions instance = new C_GetInversions();
+        //long startTime = System.currentTimeMillis();
+        int result = instance.calc(stream);
+        //long finishTime = System.currentTimeMillis();
+        boolean ok=(2==result);
+        assertTrue("C failed", ok);
+
+    }
+
 }
