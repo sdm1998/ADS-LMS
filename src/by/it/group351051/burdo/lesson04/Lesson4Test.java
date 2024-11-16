@@ -81,7 +81,6 @@ public class Lesson4Test {
         assertTrue("B failed", ok);
     }
 
-
     @Test
     public void C() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
@@ -91,6 +90,19 @@ public class Lesson4Test {
         int result = instance.calc(stream);
         //long finishTime = System.currentTimeMillis();
         boolean ok=(2==result);
+        assertTrue("C failed", ok);
+
+    }
+
+    @Test
+    public void C2() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson04/dataСTest.txt");
+        C_GetInversions instance = new C_GetInversions();
+        //long startTime = System.currentTimeMillis();
+        int result = instance.calc(stream);
+        //long finishTime = System.currentTimeMillis();
+        boolean ok=(9==result);
         assertTrue("C failed", ok);
 
     }
