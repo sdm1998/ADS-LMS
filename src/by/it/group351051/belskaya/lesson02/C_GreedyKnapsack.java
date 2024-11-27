@@ -14,16 +14,19 @@ package by.it.group351051.belskaya.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
         int cost;
         int weight;
+        double ratio;
 
         Item(int cost, int weight) {
             this.cost = cost;
             this.weight = weight;
+            this.ratio = (double) cost / weight;
         }
 
         @Override
@@ -31,6 +34,7 @@ public class C_GreedyKnapsack {
             return "Item{" +
                     "cost=" + cost +
                     ", weight=" + weight +
+                    ", ratio=" + ratio +
                     '}';
         }
 
@@ -39,7 +43,7 @@ public class C_GreedyKnapsack {
             //тут может быть ваш компаратор
 
 
-            return 0;
+            return Double.compare(o.ratio, this.ratio);
         }
     }
 
@@ -57,10 +61,24 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
+        Arrays.sort(items);
+
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
+        int currentWeight = 0;
+
+        for(Item item:items) {
+            if(currentWeight + item.weight <= W) {
+                currentWeight += item.weight;
+                result += item.cost;
+            } else {
+                int remainingWeight = W - currentWeight;
+                result += item.ratio * remainingWeight;
+                break;
+            }
+        }
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
