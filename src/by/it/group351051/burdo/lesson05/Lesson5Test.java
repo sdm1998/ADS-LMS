@@ -12,7 +12,7 @@ public class Lesson5Test {
     @Test
     public void A() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataA.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataC.txt");
         A_QSort instance = new A_QSort();
         int[] result=instance.getAccessory(stream);
         boolean ok=Arrays.equals(result,new int[]{1,0,0});
@@ -50,5 +50,15 @@ public class Lesson5Test {
         assertTrue("B failed", ok);
     }
 
+
+    @Test
+    public void C() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataC.txt");
+        C_QSortOptimized instance = new C_QSortOptimized();
+        int[] result=instance.getAccessory2(stream);
+        boolean ok=Arrays.equals(result,new int[]{1,0,0});
+        assertTrue("C failed", ok);
+    }
 
 }
