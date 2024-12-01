@@ -71,4 +71,14 @@ public class Lesson5Test {
         assertTrue("C failed", ok);
     }
 
+    @Test
+    public void C3() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataCTest.txt");
+        C_QSortOptimized instance = new C_QSortOptimized();
+        int[] result=instance.getAccessory2(stream);
+        boolean ok=Arrays.equals(result,new int[]{4, 0, 3, 0, 4});
+        assertTrue("C failed", ok);
+    }
+
 }

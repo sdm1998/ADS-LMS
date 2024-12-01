@@ -28,7 +28,32 @@ import java.util.Scanner;
     1 0 0
 
 */
+/*
+1) Каждый рекурсивный вызов сохраняет состояние текущей функции в стеке,
+чтобы после возврата можно было продолжить выполнение. Если рекурсия глубокая,
+стек переполняется (StackOverflowError).
 
+Элиминация хвостовой рекурсии заключается в преобразовании рекурсии в цикл,
+чтобы уменьшить использование памяти стека. При этом:
+Мы сохраняем текущие параметры функции в переменных.
+Вместо рекурсивного вызова в хвостовой позиции используем обновление
+переменных и переход к следующей итерации.
+
+В стандартной реализации быстрой сортировки оба подмассива сортируются рекурсивно.
+Если сортируемый массив большой, стек вызовов может переполниться. Чтобы это исправить
+Используем цикл вместо рекурсии для сортировки большего подмассива.
+
+Чтобы модифицировать алгоритм быстрой сортировки с использованием 3-разбиения и сделать его более эффективным, мы разделим массив на три части в процессе разбиения:
+-Элементы меньше опорного.
+-Элементы, равные опорному.
+-Элементы больше опорного.
+Также преобразуем компаратор, чтобы он ог определять и одинаковые отрезки.
+
+Для оптимизации рекурсивных вызовов:
+-Мы будем рекурсивно сортировать только части массива, где элементы меньше или больше опорного.
+-Хвостовую рекурсию будем заменять на итерацию.
+
+ */
 
 public class C_QSortOptimized {
 
@@ -50,29 +75,51 @@ public class C_QSortOptimized {
 
         @Override
         public int compareTo(Segment o) {
-            if (this.start > o.start) {
+            if (this.start == o.start && this.stop == o.stop) {
+                return 0;
+            }else if (this.start > o.start) {
                 // если текущий старт позже сравниваемого
                 return 1;
+            }else if (this.start < o.start) {
+                // если текущий старт раньше сравниваемого
+                return - 1;
             } else if (this.start == o.start && this.stop - this.start < o.stop - o.start) {
                 // если старты совпадают, но текущее событие короче сравниваемого
                 return 1;
             }
-            return 0;
+            return -1;
         }
     }
 
+    private static void quickSort1(Segment[] segments, int low, int high) {
+        while (low < high) {
+            int mid = partition2(segments, low, high);
+
+            if (mid - low < high - mid) {
+                // cортируем меньший подмассив рекурсивно
+                quickSort(segments, low, mid - 1);
+                low = mid + 1; // сортируем правый подмассив итеративно
+            } else {
+                quickSort(segments, mid + 1, high);
+                high = mid - 1; // сортируем левый подмассив итеративно
+            }
+        }
+    }
     private static void quickSort(Segment[] segments, int low, int high) {
-        if (low < high) {
-            // делим список на две части
-            int mid = partition(segments, low, high);
+        while (low < high) {
+            // Разделение массива на три части
+            int[] mid = partition3(segments, low, high);
 
-            // рекурсивно сортируем слева
-            quickSort(segments, low, mid - 1);
-            // рекурсивно сортируем справа
-            quickSort(segments, mid + 1, high);
+            // Определяем, какая часть меньше, и вызываем сортировку для нее
+            if (mid[0] - low < high - mid[1]) {
+                quickSort(segments, low, mid[0] - 1); // Рекурсивно сортируем меньшую часть
+                low = mid[1] + 1; // Переходим к итеративной обработке правой части
+            } else {
+                quickSort(segments, mid[1] + 1, high); // Рекурсивно сортируем меньшую часть
+                high = mid[0] - 1; // Переходим к итеративной обработке левой части
+            }
         }
     }
-
     private static void swap(Segment[] segments, int i, int j) {
         // меняем местами элементы
         Segment temp = segments[i];
@@ -80,7 +127,29 @@ public class C_QSortOptimized {
         segments[j] = temp;
     }
 
-    private static int partition(Segment[] arr, int low, int high) {
+    private static int[] partition3(Segment[] segments, int low, int high) {
+        Segment mid = segments[high]; // опорный элемент
+        int lt = low;              // граница для элементов меньше опорного
+        int gt = high;             // граница для элементов больше опорного
+        int i = low;               // текущий индекс
+
+        while (i <= gt) {
+            if (segments[i].compareTo(mid) < 0) {
+                swap(segments, lt, i);
+                lt++;
+                i++;
+            } else if (segments[i].compareTo(mid) > 0) {
+                swap(segments, i, gt);
+                gt--;
+            } else {
+                i++;
+            }
+        }
+        // возвращаем индексы, которые ограничивают центральную часть, равную опорному элементу
+        return new int[]{lt, gt};
+    }
+
+    private static int partition2(Segment[] arr, int low, int high) {
         // выбираем средний элемент в качестве опорного
         int middle = low + (high - low) / 2;
         Segment pivot = arr[middle];
