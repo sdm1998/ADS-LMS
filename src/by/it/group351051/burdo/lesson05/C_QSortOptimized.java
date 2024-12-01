@@ -104,7 +104,58 @@ public class C_QSortOptimized {
         // возвращаем индекс, на котором теперь находится опорный элемент
         return i + 1;
     }
+    private static boolean pointInSegment(Segment segment, int point) {
+        return point >= segment.start && point <= segment.stop;
+    }
 
+    private static int getSegmentIndex(Segment[] segments, int point, int n) {
+        // получение индекса сегмента, где встречается данная точка бинарным поиском
+        int startIndex = 0; // стартовый индекс самый начальный
+        int endIndex = n-1; // конечный индекс самый последний
+        int foundIndex = -1;
+        while (startIndex <= endIndex ) {
+            // перерасчитываем цетральный индекс при каждой итерации поиска
+            int centerIndex = startIndex + (endIndex - startIndex) / 2;
+            if (pointInSegment(segments[centerIndex], point)) {
+                return centerIndex;
+            } else if (segments[centerIndex].stop < point) {
+                // если конец съемки раньше искомой точки
+                // то передвигаем стартовый индекс
+                startIndex = centerIndex + 1;
+            } else if (segments[centerIndex].start > point) {
+                // если начало позже позже искомой точки
+                // то передвигаем конечный индекс
+                endIndex = centerIndex - 1;
+            }
+        }
+        // если не встретили точку возвращаем -1
+        return -1;
+    }
+
+    private static int getSegmentOccurrence(Segment[] segments, int point, int n) {
+        // бинарным поиском получаем индекс отрезка, где была встречена точка
+        int index = getSegmentIndex(segments, point, n);
+        if (index == -1) {
+            // если точку не встретили - возвращаем 0
+            return 0;
+        }
+        // так как точка уже встречена - счетчик точек стартует с 1
+        int occurrences = 1;
+        // ищем подходящие сегменты слева от подходящего
+        int currentIndex = index + 1;
+        while (currentIndex < n && pointInSegment(segments[currentIndex], point)) {
+            currentIndex++;
+            occurrences++;
+        }
+
+        // ищем подходящие сегменты справа от подходящего
+        currentIndex = index - 1;
+        while (currentIndex >= 0 && pointInSegment(segments[currentIndex], point)) {
+            currentIndex--;
+            occurrences++;
+        }
+        return occurrences;
+    }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -135,19 +186,12 @@ public class C_QSortOptimized {
 
         // проходимся по списку точек и считаем сколько раз встретили в событиях
         for (int i = 0; i < m; i++) {
-            int pointOccurance = 0;
-            for (int j = 0; j < n; j++) {
-                if (points[i] >= segments[j].start && points[i] <= segments[j].stop) {
-                    pointOccurance += 1;
-                }
-            }
-            result[i] = pointOccurance;
+            result[i] = getSegmentOccurrence(segments, points[i], n);
         }
 
         for (int i = 0; i < n; i++) {
             System.out.printf("sorted segments %d %d\n", segments[i].start, segments[i].stop);
         }
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
@@ -155,7 +199,7 @@ public class C_QSortOptimized {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataA.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataATest.txt");
         C_QSortOptimized instance = new C_QSortOptimized();
         int[] result=instance.getAccessory2(stream);
         for (int index:result){

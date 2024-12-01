@@ -51,7 +51,7 @@ public class A_BinaryFind {
             //тут бинарный поиск индекса
             //System.out.println(value);
             int startIndex = 0; // стартовый индекс самый начальный
-            int endIndex = k-1; // конечный индекс самый последний индекс самый начальный
+            int endIndex = k-1; // конечный индекс самый последний
             int foundIndex = -1;
             while (startIndex <= endIndex ) {
                 // перерасчитываем цетральный индекс при каждой итерации поиска

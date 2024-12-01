@@ -52,12 +52,22 @@ public class Lesson5Test {
 
 
     @Test
-    public void C() throws Exception {
+    public void C1() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataC.txt");
         C_QSortOptimized instance = new C_QSortOptimized();
         int[] result=instance.getAccessory2(stream);
         boolean ok=Arrays.equals(result,new int[]{1,0,0});
+        assertTrue("C failed", ok);
+    }
+
+    @Test
+    public void C2() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson05/dataATest.txt");
+        C_QSortOptimized instance = new C_QSortOptimized();
+        int[] result=instance.getAccessory2(stream);
+        boolean ok=Arrays.equals(result,new int[]{3, 0, 2, 0, 3});
         assertTrue("C failed", ok);
     }
 
