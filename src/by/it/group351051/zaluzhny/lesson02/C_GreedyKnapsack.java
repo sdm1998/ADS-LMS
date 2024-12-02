@@ -14,16 +14,19 @@ package by.it.group351051.zaluzhny.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
         int cost;
         int weight;
+        double valuePerWeight;
 
         Item(int cost, int weight) {
             this.cost = cost;
             this.weight = weight;
+            this.valuePerWeight = (double) cost / weight;
         }
 
         @Override
@@ -31,55 +34,60 @@ public class C_GreedyKnapsack {
             return "Item{" +
                     "cost=" + cost +
                     ", weight=" + weight +
+                    ", valuePerWeight=" + valuePerWeight +
                     '}';
         }
 
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-
-
-            return 0;
+            return Double.compare(o.valuePerWeight, this.valuePerWeight);
         }
     }
 
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);
-        int n = input.nextInt();      //сколько предметов в файле
-        int W = input.nextInt();      //какой вес у рюкзака
-        Item[] items = new Item[n];   //получим список предметов
-        for (int i = 0; i < n; i++) { //создавая каждый конструктором
+        int n = input.nextInt();      // количество предметов
+        int W = input.nextInt();      // максимальный вес рюкзака
+        Item[] items = new Item[n];   // массив предметов
+
+        for (int i = 0; i < n; i++) { // создаём каждый предмет
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
-        //покажем предметы
-        for (Item item:items) {
+
+        // Покажем предметы
+        for (Item item : items) {
             System.out.println(item);
         }
-        System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
+        System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
 
-        //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
-        //вещи можно резать на кусочки (непрерывный рюкзак)
-        double result = 0;
-        //тут реализуйте алгоритм сбора рюкзака
-        //будет особенно хорошо, если с собственной сортировкой
-        //кроме того, можете описать свой компаратор в классе Item
-        //ваше решение.
+        // Сортируем предметы по отношению стоимости к весу
+        Arrays.sort(items);
 
+        double totalValue = 0; // Общая стоимость предметов в рюкзаке
+        for (Item item : items) {
+            if (W <= 0) break; // Если рюкзак полон, выходим из цикла
 
+            if (item.weight <= W) {
+                // Если предмет можно полностью положить в рюкзак
+                totalValue += item.cost; // Добавляем его стоимость
+                W -= item.weight; // Уменьшаем оставшийся вес
+            } else {
+                // Если предмет больше оставшегося места, берем часть
+                totalValue += item.valuePerWeight * W; // Добавляем часть стоимости
+                W = 0; // Рюкзак больше не вмещает ничего
+            }
+        }
 
-
-
-        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
-        return result;
+        System.out.printf("Удалось собрать рюкзак на сумму %.2f\n", totalValue);
+        return totalValue; // Возвращаем итоговую стоимость
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
-        String root=System.getProperty("user.dir")+"/src/";
-        File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
-        double costFinal=new C_GreedyKnapsack().calc(f);
+        String root = System.getProperty("user.dir") + "/src/";
+        File f = new File(root + "by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        double costFinal = new C_GreedyKnapsack().calc(f);
         long finishTime = System.currentTimeMillis();
-        System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);
+        System.out.printf("Общая стоимость %.2f (время %d мс)", costFinal, finishTime - startTime);
     }
 }
