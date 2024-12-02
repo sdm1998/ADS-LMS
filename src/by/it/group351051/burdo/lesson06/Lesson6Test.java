@@ -27,4 +27,25 @@ public class Lesson6Test {
         boolean ok=(result==5);
         assertTrue("A failed", ok);
     }
+
+    @Test
+    public void B1() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson06/dataB.txt");
+        B_LongDivComSubSeq instance=new B_LongDivComSubSeq();
+        int result=instance.getDivSeqSize(stream);
+        boolean ok=(result==3);
+        assertTrue("B failed", ok);
+    }
+
+    @Test
+    public void B2() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson06/dataBTest.txt");
+        B_LongDivComSubSeq instance=new B_LongDivComSubSeq();
+        int result=instance.getDivSeqSize(stream);
+        boolean ok=(result==4);
+        assertTrue("B failed", ok);
+    }
+
 }
