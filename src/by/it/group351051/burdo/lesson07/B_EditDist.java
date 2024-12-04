@@ -53,9 +53,11 @@ public class B_EditDist {
 
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int result = 0;
+        //  одна из строк пустая
+        if (one.isEmpty()) return two.length();
+        if (two.isEmpty()) return one.length();
         if (Objects.equals(one, two)) {
-            return result;
+            return 0;
         }
         // задаем матрицу для вычисления расстояния редактирования
         int[][] editingMatrix = new int[two.length()+1][one.length()+1];
@@ -74,9 +76,9 @@ public class B_EditDist {
                 // если символы не равны, то инкриминируем значение изменения
                 int m = one.charAt(j-1)==two.charAt(i-1) ? 0 : 1;
                 int[] sequence = {
-                        editingMatrix[i-1][j] + 1,
-                        editingMatrix[i][j-1] + 1,
-                        editingMatrix[i-1][j-1] + m,
+                        editingMatrix[i-1][j] + 1, // вставка
+                        editingMatrix[i][j-1] + 1, // удаление
+                        editingMatrix[i-1][j-1] + m,  // замена
                 };
 
                 // находим минимальное значение через поток
