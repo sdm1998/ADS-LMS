@@ -7,7 +7,7 @@ package by.it.group351051.burdo.lesson02;
     100 50
     120 30
     100 50
-Все это указано в файле (by/it/a_khmelev/lesson02/greedyKnapsack.txt)
+Все это указано в файле (by/it/burdo/lesson02/lesson02/greedyKnapsack.txt)
 
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)

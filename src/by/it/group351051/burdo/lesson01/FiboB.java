@@ -1,7 +1,6 @@
 package by.it.group351051.burdo.lesson01;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 /*
  * Вам необходимо выполнить способ вычисления чисел Фибоначчи с вспомогательным массивом
