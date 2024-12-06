@@ -43,4 +43,23 @@ public class Lesson8Test {
         assertEquals("B2 failed", res, 10);
     }
 
+    @Test
+    public void C1() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson08/dataC.txt");
+        C_Stairs instance = new C_Stairs();
+        int res=instance.getMaxSum(stream);
+        assertEquals("C1 failed", res, 3);
+    }
+
+
+    @Test
+    public void C2() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group351051/burdo/lesson08/dataCTest.txt");
+        C_Stairs instance = new C_Stairs();
+        int res=instance.getMaxSum(stream);
+        assertEquals("C2 failed", res, 4);
+    }
+
 }
