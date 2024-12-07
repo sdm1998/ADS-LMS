@@ -3,6 +3,7 @@ package by.it.group351051.zaluzhny.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -39,31 +40,63 @@ import java.util.Scanner;
 public class C_LongNotUpSubSeq {
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
-        //читаем всю последовательность
+
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
 
+        int[] dp = new int[n];
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        int[] previous = new int[n];
+        int maxLength = 0;
+
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            previous[i] = -1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (m[j] >= m[i]) {
+                    if (dp[j] + 1 > dp[i]) {
+                        dp[i] = dp[j] + 1;
+                        previous[i] = j;
+                    }
+                }
+            }
+            if (dp[i] > maxLength) {
+                maxLength = dp[i];
+            }
+        }
+
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (dp[i] == maxLength) {
+                int index = i;
+                while (index != -1) {
+                    indexes.add(index + 1);
+                    index = previous[index];
+                }
+                break;
+            }
+        }
+
+        System.out.println(maxLength);
+        for (int i = indexes.size() - 1; i >= 0; i--) {
+            System.out.print(indexes.get(i) + " ");
+        }
+        System.out.println();
+
+        return maxLength;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
-        int result = instance.getNotUpSeqSize(stream);
-        System.out.print(result);
+        instance.getNotUpSeqSize(stream);
     }
-
 }

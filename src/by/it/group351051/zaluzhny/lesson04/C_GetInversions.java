@@ -35,30 +35,69 @@ Sample Output:
 
 public class C_GetInversions {
 
+    private int mergeSortAndCount(int[] array, int left, int right) {
+        int count = 0;
+        if (left < right) {
+            int mid = (left + right) / 2;
+
+            count += mergeSortAndCount(array, left, mid);
+            count += mergeSortAndCount(array, mid + 1, right);
+            count += mergeAndCount(array, left, mid, right);
+        }
+        return count;
+    }
+
+    // Слияние подмассивов и подсчёт инверсий
+    private int mergeAndCount(int[] array, int left, int mid, int right) {
+        int n1 = mid - left + 1; // Размер левой части
+        int n2 = right - mid;    // Размер правой части
+
+        int[] leftArray = new int[n1];
+        int[] rightArray = new int[n2];
+
+        // Копируем данные во временные массивы
+        System.arraycopy(array, left, leftArray, 0, n1);
+        System.arraycopy(array, mid + 1, rightArray, 0, n2);
+
+        int i = 0, j = 0, k = left;
+        int inversions = 0;
+
+        while (i < n1 && j < n2) {
+            if (leftArray[i] <= rightArray[j]) {
+                array[k++] = leftArray[i++];
+            } else {
+                // Все оставшиеся элементы в leftArray образуют инверсии с rightArray[j]
+                array[k++] = rightArray[j++];
+                inversions += (n1 - i); // Количество оставшихся элементов в leftArray
+            }
+        }
+
+        // Копируем оставшиеся элементы
+        while (i < n1) {
+            array[k++] = leftArray[i++];
+        }
+        while (j < n2) {
+            array[k++] = rightArray[j++];
+        }
+
+        return inversions;
+    }
+
+
+
     int calc(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!
-        //размер массива
+        // Размер массива
         int n = scanner.nextInt();
-        //сам массив
+        // Сам массив
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
 
-
-
-
-
-
-
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        // Вызов метода для подсчета инверсий
+        return mergeSortAndCount(a, 0, n - 1);
     }
 
 
