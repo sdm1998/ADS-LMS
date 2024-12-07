@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group351051.a_hancharyk.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -6,7 +6,6 @@ package by.it.a_khmelev.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class FiboC {
@@ -32,9 +31,23 @@ public class FiboC {
     long fasterC(long n, int m) {
 
 
+        ArrayList<Long> fib= new ArrayList<>();
 
+        fib.add(0L);
+        fib.add(1L);
+        long t = 0;
 
-       return 0;
+        // for (long long j = 2; j < n; ++j) {
+        for (long j = (long)2; j < m*m+1; ++j) {
+
+            long temp = fib.get((int)(j - (long)1));
+           long temp1 = fib.get((int)(j - (long)2));
+            fib.add( (temp + temp1) % m);
+            t++;//t = t + 1
+            if ((fib.get((int)j) == 1) && (fib.get((int)(j - 1)) ==0)) break;
+        }
+
+       return  fib.get((int)(n % t)) ;
 
 
         //Решение сложно найти интуитивно
