@@ -50,8 +50,47 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int[] dp = new int[n];
+        int[] prev = new int[n];
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1; // Минимальная длина подпоследовательности для каждого элемента
+            prev[i] = -1; // Нет предыдущего элемента
+        }
 
+        // Заполнение массива dp
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (m[j] >= m[i]) {
+                    if (dp[j] + 1 > dp[i]) {
+                        dp[i] = dp[j] + 1;
+                        prev[i] = j;
+                    }
+                }
+            }
+        }
+
+        // Нахождение максимального значения в массиве dp
+        int result = 0;
+        int maxIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (dp[i] > result) {
+                result = dp[i];
+                maxIndex = i;
+            }
+        }
+
+        // Восстановление индексов подпоследовательности
+        int[] resultIndices = new int[result];
+        for (int i = result - 1; i >= 0; i--) {
+            resultIndices[i] = maxIndex + 1; // Индексы начинаются с 1
+            maxIndex = prev[maxIndex];
+        }
+
+        // Вывод индексов подпоследовательности
+        System.out.println(result);
+        for (int index : resultIndices) {
+            System.out.print(index + " ");
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
@@ -60,7 +99,7 @@ public class C_LongNotUpSubSeq {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351051/belskaya/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
         int result = instance.getNotUpSeqSize(stream);
         System.out.print(result);

@@ -41,18 +41,37 @@ public class A_EditDist {
 
 
     int getDistanceEdinting(String one, String two) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return editDistance(one, two, one.length(), two.length());
+    }
 
+    private int editDistance(String one, String two, int i, int j) {
+        // Базовые случаи
+        if (i == 0) {
+            return j;
+        }
+        if (j == 0) {
+            return i;
+        }
 
-        int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        // Если последние символы совпадают, игнорируем их
+        if (one.charAt(i - 1) == two.charAt(j - 1)) {
+            return editDistance(one, two, i - 1, j - 1);
+        } else {
+            // Минимальная из трех операций: вставка, удаление, замена
+            return 1 + Math.min(
+                    editDistance(one, two, i, j - 1), // Вставка
+                    Math.min(
+                            editDistance(one, two, i - 1, j), // Удаление
+                            editDistance(one, two, i - 1, j - 1) // Замена
+                    )
+            );
+        }
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson07/dataABC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351051/belskaya/lesson07/dataABC.txt");
         A_EditDist instance = new A_EditDist();
         Scanner scanner = new Scanner(stream);
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
