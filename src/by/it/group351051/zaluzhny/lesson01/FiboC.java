@@ -51,7 +51,6 @@ public class FiboC {
         return 0; // Это не должно произойти
     }
 
-    // Функция для вычисления n-го числа Фибоначчи по модулю m
     private long fibonacciMod(long n, int m) {
         if (n == 0) return 0;
         if (n == 1) return 1;
