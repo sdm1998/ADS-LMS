@@ -1,6 +1,8 @@
 package by.it.group351051.nosovich.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 /*
 даны интервальные события events
@@ -45,10 +47,29 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
+
+        // Сортировка событий в массиве по параметру stop
+        // Если событий с одинаковым значением параметра stop более одного,
+        // то сортировка происходит в порядке возрастания значения параметра start
+        Arrays.sort(events, Comparator.comparingInt(e -> e.stop));
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
 
+        // Переменная для хренения значения from при первой итерации цикла
+        // и значения параметра stop последнего добавленного в result события при последующих итерациях цикла
+        int lastEventEndTime = from;
+
+        for (Event event : events) {
+            // В случае попадания значений start и stop события в интервал
+            if (event.start >= lastEventEndTime && event.stop <= to) {
+                // в массив добавляется текущее событие
+                result.add(event);
+                // Переменной присваивается значение stop последнего добавленного в result события
+                // для отбора из списка только непересекающихся по времени событий
+                lastEventEndTime = event.stop;
+            }
+        }
 
 
 
