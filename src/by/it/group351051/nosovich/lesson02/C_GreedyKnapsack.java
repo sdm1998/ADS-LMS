@@ -14,6 +14,7 @@ package by.it.group351051.nosovich.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -36,10 +37,12 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-
-
-            return 0;
+            double thisValue = (double) this.cost / this.weight;
+            double otherValue = (double) o.cost / o.weight;
+            // Сравнение соотношения стоимости предметов к их весу
+            // и нахождение предмета с наибольшим значением
+            int compare = Double.compare(otherValue, thisValue);
+            return compare; // Сортировка
         }
     }
 
@@ -51,6 +54,10 @@ public class C_GreedyKnapsack {
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
+        // Сортирвка предметов по убыванию значения,
+        // полученного в результат деления стоимости на вес
+        Arrays.sort(items);
+
         //покажем предметы
         for (Item item:items) {
             System.out.println(item);
@@ -60,15 +67,31 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-        double result = 0;
+        double result = 0; // Исходная стоимость
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
         //ваше решение.
 
-
-
-
+        for (Item item:items) {
+            // Если рюкзак полон, выход из цикла
+            if (W == 0) break;
+            // Если вес предмета меньше, чем помещает рюкзак
+            if (item.weight <= W) {
+                // К стоимости рюкзака прибавляется стоимость предмета
+                result += item.cost;
+                // Из вместимости рюкзака по весу отнимается вес предмета
+                W-= item.weight;
+            }
+            // Если вес предмета больше, чем помещает рюкзак
+            else {
+                // К стоимости рюкзака добавляется стоимость той части предмета,
+                // которая по весу входит в лимит рюкзака
+                result += item.cost * ((double) W / item.weight);
+                // Рюкзак заполнен, цикл прерывается
+                W = 0;
+            }
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
