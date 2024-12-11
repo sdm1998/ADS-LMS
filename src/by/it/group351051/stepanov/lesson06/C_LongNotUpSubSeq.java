@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /*
-Задача на программирование: наибольшая невозростающая подпоследовательность
+Задача на программирование: наибольшая невозрастающая подпоследовательность
 
 Дано:
     целое число 1<=n<=1E5 ( ОБРАТИТЕ ВНИМАНИЕ НА РАЗМЕРНОСТЬ! )
@@ -49,18 +49,48 @@ public class C_LongNotUpSubSeq {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
 
+        int[] dp = new int[n];
+        int[] prev = new int[n];
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            prev[i] = -1;
+        }
+
+        int maxLength = 0;
+        int lastIndex = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (m[j] >= m[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
+                }
+            }
+            if (dp[i] > maxLength) {
+                maxLength = dp[i];
+                lastIndex = i;
+            }
+        }
+
+        StringBuilder indices = new StringBuilder();
+        int currentIndex = lastIndex;
+        while (currentIndex != -1) {
+            indices.insert(0, (currentIndex + 1) + " ");
+            currentIndex = prev[currentIndex];
+        }
+
+        System.out.println(maxLength);
+        System.out.println(indices.toString().trim());
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return maxLength;
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/stepanov/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
         int result = instance.getNotUpSeqSize(stream);
         System.out.print(result);

@@ -50,23 +50,54 @@ import java.util.Scanner;
 public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        int n = one.length();
+        int m = two.length();
+        int[][] dp = new int[n + 1][m + 1];
+        StringBuilder[][] operations = new StringBuilder[n + 1][m + 1];
 
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                operations[i][j] = new StringBuilder();
+                if (i == 0) {
+                    dp[i][j] = j;
+                    if (j > 0) {
+                        operations[i][j].append(operations[i][j - 1]).append("+" + two.charAt(j - 1) + ",");
+                    }
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                    operations[i][j].append(operations[i - 1][j]).append("-" + one.charAt(i - 1) + ",");
+                } else {
+                    int cost = one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1;
+                    if (dp[i - 1][j] + 1 <= dp[i][j - 1] + 1 && dp[i - 1][j] + 1 <= dp[i - 1][j - 1] + cost) {
+                        dp[i][j] = dp[i - 1][j] + 1;
+                        operations[i][j].append(operations[i - 1][j]).append("-" + one.charAt(i - 1) + ",");
+                    } else if (dp[i][j - 1] + 1 <= dp[i - 1][j] + 1 && dp[i][j - 1] + 1 <= dp[i - 1][j - 1] + cost) {
+                        dp[i][j] = dp[i][j - 1] + 1;
+                        operations[i][j].append(operations[i][j - 1]).append("+" + two.charAt(j - 1) + ",");
+                    } else {
+                        dp[i][j] = dp[i - 1][j - 1] + cost;
+                        if (cost == 0) {
+                            operations[i][j].append(operations[i - 1][j - 1]).append("#,");
+                        } else {
+                            operations[i][j].append(operations[i - 1][j - 1]).append("~" + two.charAt(j - 1) + ",");
+                        }
+                    }
+                }
+            }
+        }
 
-        String result = "";
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return operations[n][m].toString();
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson07/dataABC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/stepanov/lesson07/dataABC.txt");
         C_EditDist instance = new C_EditDist();
         Scanner scanner = new Scanner(stream);
-        System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
-        System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
-        System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
+        System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
+        System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
+        System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
     }
 
 }

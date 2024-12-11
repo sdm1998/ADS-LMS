@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /*
 Видеорегистраторы и площадь 2.
@@ -32,57 +33,96 @@ import java.util.Scanner;
 
 public class C_QSortOptimized {
 
-    //отрезок
-    private class Segment  implements Comparable{
+    // Отрезок
+    private static class Segment implements Comparable<Segment> {
         int start;
         int stop;
 
-        Segment(int start, int stop){
+        Segment(int start, int stop) {
+            if (start > stop) {
+                int temp = start;
+                start = stop;
+                stop = temp;
+            }
             this.start = start;
             this.stop = stop;
         }
 
         @Override
-        public int compareTo(Object o) {
-            //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+        public int compareTo(Segment o) {
+            return Integer.compare(this.start, o.start);
         }
     }
 
-
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //число отрезков отсортированного массива
+
+        // Число отрезков и точек
         int n = scanner.nextInt();
-        Segment[] segments=new Segment[n];
-        //число точек
         int m = scanner.nextInt();
-        int[] points=new int[m];
-        int[] result=new int[m];
 
-        //читаем сами отрезки
+        Segment[] segments = new Segment[n];
+        int[] points = new int[m];
+        int[] result = new int[m];
+
+        // Читаем отрезки
         for (int i = 0; i < n; i++) {
-            //читаем начало и конец каждого отрезка
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
         }
-        //читаем точки
-        for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
+
+        // Читаем точки
+        for (int i = 0; i < m; i++) {
+            points[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи с применением быстрой сортировки
-        //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
+        // Сортируем отрезки
+        Arrays.sort(segments);
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        // Обрабатываем каждую точку
+        for (int i = 0; i < m; i++) {
+            result[i] = countSegmentsForPoint(segments, points[i]);
+        }
+
         return result;
+    }
+
+    private int countSegmentsForPoint(Segment[] segments, int point) {
+        int count = 0;
+        int left = 0, right = segments.length - 1;
+
+        // Бинарный поиск первого подходящего отрезка
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (segments[mid].start <= point && segments[mid].stop >= point) {
+                count++;
+
+                // Проверяем соседние элементы
+                int temp = mid;
+                while (--temp >= 0 && segments[temp].start <= point && segments[temp].stop >= point) {
+                    count++;
+                }
+
+                temp = mid;
+                while (++temp < segments.length && segments[temp].start <= point && segments[temp].stop >= point) {
+                    count++;
+                }
+
+                break;
+            } else if (segments[mid].start > point) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return count;
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/stepanov/lesson05/dataC.txt");
         C_QSortOptimized instance = new C_QSortOptimized();
         int[] result=instance.getAccessory2(stream);
         for (int index:result){

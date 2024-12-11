@@ -36,39 +36,77 @@ Sample Output:
 public class C_GetInversions {
 
     int calc(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!
-        //размер массива
+        // Размер массива
         int n = scanner.nextInt();
-        //сам массив
+        // Сам массив
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
 
-
-
-
-
-
-
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        // Обертка для сортировки с подсчетом инверсий
+        return mergeSortAndCount(a, 0, n - 1);
     }
 
+    // Метод для сортировки слиянием и подсчета инверсий
+    private int mergeSortAndCount(int[] arr, int left, int right) {
+        int count = 0;
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Подсчет инверсий в левой и правой половинах
+            count += mergeSortAndCount(arr, left, mid);
+            count += mergeSortAndCount(arr, mid + 1, right);
+
+            // Подсчет перекрестных инверсий и объединение половин
+            count += mergeAndCount(arr, left, mid, right);
+        }
+        return count;
+    }
+
+    // Метод для объединения двух отсортированных половин и подсчета инверсий
+    private int mergeAndCount(int[] arr, int left, int mid, int right) {
+        int[] leftArr = new int[mid - left + 1];
+        int[] rightArr = new int[right - mid];
+
+        // Заполнение левого и правого подмассивов
+        System.arraycopy(arr, left, leftArr, 0, leftArr.length);
+        System.arraycopy(arr, mid + 1, rightArr, 0, rightArr.length);
+
+        int i = 0, j = 0, k = left, swaps = 0;
+
+        // Объединение с подсчетом инверсий
+        while (i < leftArr.length && j < rightArr.length) {
+            if (leftArr[i] <= rightArr[j]) {
+                arr[k++] = leftArr[i++];
+            } else {
+                arr[k++] = rightArr[j++];
+                // Подсчет инверсий: все оставшиеся элементы в leftArr больше
+                swaps += leftArr.length - i;
+            }
+        }
+
+        // Копирование оставшихся элементов
+        while (i < leftArr.length) {
+            arr[k++] = leftArr[i++];
+        }
+        while (j < rightArr.length) {
+            arr[k++] = rightArr[j++];
+        }
+
+        return swaps;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/stepanov/lesson04/dataC.txt");
         C_GetInversions instance = new C_GetInversions();
-        //long startTime = System.currentTimeMillis();
+        // Длительность выполнения можно измерить для оценки производительности
+        long startTime = System.currentTimeMillis();
         int result = instance.calc(stream);
-        //long finishTime = System.currentTimeMillis();
+        long finishTime = System.currentTimeMillis();
         System.out.print(result);
     }
 }

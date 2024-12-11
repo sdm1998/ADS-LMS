@@ -3,6 +3,7 @@ package by.it.group351051.stepanov.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -19,35 +20,47 @@ public class B_CountSort {
 
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //размер массива
+
+        // Размер массива
         int n = scanner.nextInt();
-        int[] points=new int[n];
+        int[] points = new int[n];
 
-        //читаем точки
+        // Читаем элементы массива
         for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
+            points[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи с применением сортировки подсчетом
 
+        // Реализация сортировки подсчетом
+        int maxValue = 10; // Максимальное значение элемента (по условию задачи)
+        int[] count = new int[maxValue + 1];
 
+        // Подсчитываем количество каждого элемента
+        for (int point : points) {
+            count[point]++;
+        }
 
+        // Восстанавливаем отсортированный массив
+        int index = 0;
+        for (int i = 0; i <= maxValue; i++) {
+            while (count[i] > 0) {
+                points[index++] = i;
+                count[i]--;
+            }
+        }
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
+        InputStream stream = new FileInputStream(root + "by/it/stepanov/lesson05/dataB.txt");
         B_CountSort instance = new B_CountSort();
-        int[] result=instance.countSort(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        int[] result = instance.countSort(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
 

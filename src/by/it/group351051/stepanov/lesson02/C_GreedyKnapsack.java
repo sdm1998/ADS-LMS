@@ -15,6 +15,7 @@ package by.it.group351051.stepanov.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -36,10 +37,9 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-
-
-            return 0;
+            double thisValue = (double) this.cost / this.weight;
+            double otherValue = (double) o.cost / o.weight;
+            return Double.compare(otherValue, thisValue);
         }
     }
 
@@ -57,15 +57,16 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
-        //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
-        //вещи можно резать на кусочки (непрерывный рюкзак)
+        Arrays.sort(items);
         double result = 0;
-        //тут реализуйте алгоритм сбора рюкзака
-        //будет особенно хорошо, если с собственной сортировкой
-        //кроме того, можете описать свой компаратор в классе Item
-        //ваше решение.
+        int remainingCapacity = W;
 
+        for (Item item : items) {
+            if (remainingCapacity == 0) break;
+            int weightToTake = Math.min(item.weight, remainingCapacity);
+            result += (double) weightToTake * item.cost / item.weight;
+            remainingCapacity -= weightToTake;
+        }
 
 
 
@@ -77,7 +78,7 @@ public class C_GreedyKnapsack {
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
         String root=System.getProperty("user.dir")+"/src/";
-        File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        File f=new File(root+"by/it/stepanov/lesson02/greedyKnapsack.txt");
         double costFinal=new C_GreedyKnapsack().calc(f);
         long finishTime = System.currentTimeMillis();
         System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);
