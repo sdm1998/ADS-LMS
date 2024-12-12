@@ -50,7 +50,7 @@ public class B_Sheduler {
      * @return список выбранных событий
      */
 
-    List<Event> calcStartTimes(Event[] events, int from, int to) {
+    public List<Event> calcStartTimes(Event[] events, int from, int to) {
         List<Event> result = new ArrayList<>();
 
         //сортируем события по времени окончания (жадный подход)
