@@ -115,7 +115,7 @@ public class A_Huffman {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
-        scanner.close();
+
 
         Map<Character, Integer> count = new HashMap<>();
         for (char c: s.toCharArray()){
@@ -125,33 +125,31 @@ public class A_Huffman {
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for (Map.Entry<Character,Integer> entry:count.entrySet()){
+        for (Map.Entry<Character,Integer> entry: count.entrySet()){
             priorityQueue.add(new LeafNode(entry.getValue(),entry.getKey()));
         }
-        while (priorityQueue.size()>1){
+        while (priorityQueue.size() > 1){
             Node left = priorityQueue.poll();
             Node right = priorityQueue.poll();
             priorityQueue.add(new InternalNode(left, right));
         }
-        Node root = priorityQueue.poll();
-        if (root != null){
+        if (!priorityQueue.isEmpty()){
+            Node root = priorityQueue.poll();
             root.fillCodes("");
         }
-
 
         StringBuilder sb = new StringBuilder();
         for (char c: s.toCharArray()){
             sb.append(codes.get(c));
         }
-        StringBuilder res = new StringBuilder();
-        res.append(codes.size()).append(" ").append(sb.length()).append("\n");
-        for (Map.Entry<Character, String> entry: codes.entrySet()){
-            res.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        System.out.printf("%d %d\n", codes.size(), sb.length());
+        for (Map.Entry<Character, String> entry : codes.entrySet()) {
+            System.out.printf("%s: %s\n", entry.getKey(), entry.getValue());
+
 
         }
-        res.append(sb);
 
-        return res.toString();
+        return sb.toString();
         //01001100100111
         //01001100100111
     }
