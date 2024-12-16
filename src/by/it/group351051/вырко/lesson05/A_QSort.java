@@ -1,10 +1,9 @@
-package by.it.group351051.antonvyra.lesson05;
+package by.it.group351051.вырко.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Collections;
