@@ -1,4 +1,4 @@
-package by.it.group351051.antonvyra.lesson02;
+package by.it.group351051.вырко.lesson02;
 /*
 Даны
 1) объем рюкзака 4
