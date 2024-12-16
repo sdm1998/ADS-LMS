@@ -37,9 +37,19 @@ public class B_Knapsack {
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
+        // Массив для хранения максимального веса
+        int[] dp = new int[w+1];
 
+        for (int i = 0; i < n; i++) {
+            for (int j = w; j >= gold[i]; j--) {
+                // Обновление dp[j] если добавление текущего слитка приводит к большему весу
+                dp[j] = Math.max(dp[j], dp[j-gold[i]] + gold[i]);
+            }
+        }
 
         int result = 0;
+        // Максимальный вес, который можно унести в рюкзаке
+        result = dp[w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
