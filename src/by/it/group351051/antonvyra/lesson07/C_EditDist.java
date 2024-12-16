@@ -53,13 +53,13 @@ public class C_EditDist {
         int len1 = one.length();
         int len2 = two.length();
 
-        // DP table to store edit distances
+
         int[][] dp = new int[len1 + 1][len2 + 1];
 
-        // Operations tracker
+
         String[][] ops = new String[len1 + 1][len2 + 1];
 
-        // Initialize DP table
+        // Инициализируем таблицу
         for (int i = 0; i <= len1; i++) {
             dp[i][0] = i;
             ops[i][0] = "-" + (i > 0 ? one.charAt(i - 1) : "") + ","; // Delete operations
@@ -69,33 +69,33 @@ public class C_EditDist {
             ops[0][j] = "+" + (j > 0 ? two.charAt(j - 1) : "") + ","; // Insert operations
         }
 
-        // Fill DP table
+        // Заполняем таблицу
         for (int i = 1; i <= len1; i++) {
             for (int j = 1; j <= len2; j++) {
                 if (one.charAt(i - 1) == two.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1];
                     ops[i][j] = "#,"; // Match operation
                 } else {
-                    // Calculate the minimum cost operation
+                    // Вычисление
                     int insert = dp[i][j - 1] + 1;
                     int delete = dp[i - 1][j] + 1;
                     int replace = dp[i - 1][j - 1] + 1;
 
                     if (insert <= delete && insert <= replace) {
                         dp[i][j] = insert;
-                        ops[i][j] = "+" + two.charAt(j - 1) + ","; // Insert operation
+                        ops[i][j] = "+" + two.charAt(j - 1) + ","; // Вставка
                     } else if (delete <= insert && delete <= replace) {
                         dp[i][j] = delete;
-                        ops[i][j] = "-" + one.charAt(i - 1) + ","; // Delete operation
+                        ops[i][j] = "-" + one.charAt(i - 1) + ","; // Удаление
                     } else {
                         dp[i][j] = replace;
-                        ops[i][j] = "~" + two.charAt(j - 1) + ","; // Replace operation
+                        ops[i][j] = "~" + two.charAt(j - 1) + ","; // Замена
                     }
                 }
             }
         }
 
-        // Backtrack to generate the sequence of operations
+
         StringBuilder result = new StringBuilder();
         int i = len1;
         int j = len2;
