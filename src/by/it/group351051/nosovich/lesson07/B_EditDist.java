@@ -42,10 +42,35 @@ public class B_EditDist {
 
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        int lenOne = one.length();
+        int lenTwo = two.length();
 
+        // Матрица для хранений расстояний редактирования
+        int[][] dp = new int[lenOne + 1][lenTwo + 1];
 
-
+        // Заполнение первой строки
+        for (int i = 0; i <= lenOne; i++) {
+            dp[i][0] = i;
+        }
+        // Заполнение первого столбца
+        for (int j = 0; j <= lenTwo; j++) {
+            dp[0][j] = j;
+        }
+        // Заполнение матрицы
+        for (int i = 1; i <= lenOne; i++) {
+            for (int j = 1; j <= lenTwo; j++) {
+                // Если символы равны, коприуется значение без изменений
+                if (one.charAt(i - 1) == two.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    // Выбор минимального значения среди трех возможных операций (удаление, вставка, замена)
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + 1);
+                }
+            }
+        }
         int result = 0;
+        // Перенос расстояния редактирования в результат
+        result = dp[lenOne][lenTwo];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
