@@ -44,10 +44,10 @@ public class B_EditDist {
         int len1 = one.length();
         int len2 = two.length();
 
-        // Create a DP table
+        // Создаем таблицу DP
         int[][] dp = new int[len1 + 1][len2 + 1];
 
-        // Initialize base cases
+
         for (int i = 0; i <= len1; i++) {
             dp[i][0] = i; // Deleting all characters from `one`
         }
@@ -55,7 +55,7 @@ public class B_EditDist {
             dp[0][j] = j; // Inserting all characters into `one`
         }
 
-        // Fill the DP table
+        // Заполняем таблицу
         for (int i = 1; i <= len1; i++) {
             for (int j = 1; j <= len2; j++) {
                 // Check if characters are the same
@@ -63,15 +63,15 @@ public class B_EditDist {
 
                 dp[i][j] = Math.min(
                         Math.min(
-                                dp[i - 1][j] + 1,      // Deletion
-                                dp[i][j - 1] + 1       // Insertion
+                                dp[i - 1][j] + 1,
+                                dp[i][j - 1] + 1
                         ),
-                        dp[i - 1][j - 1] + cost    // Substitution
+                        dp[i - 1][j - 1] + cost
                 );
             }
         }
 
-        // The last cell contains the answer
+
         return dp[len1][len2];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     }
