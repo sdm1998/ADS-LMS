@@ -1,4 +1,4 @@
-package by.it.group351051.antonvyra.lesson01;
+package by.it.group351051.вырко.lesson01;
 
 import java.math.BigInteger;
 
