@@ -1,4 +1,4 @@
-package by.it.group351051.antonvyra.lesson03;
+package by.it.group351051.вырко.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
