@@ -36,7 +36,7 @@ public class A_VideoRegistrator {
             //System.out.printf("A_VideoRegistrator event = %f\n", events[i]);
             //System.out.printf("A_VideoRegistrator lastEvent + workDuration = %f\n", lastEvent + workDuration);
             if (events[i] > lastEvent + workDuration) {  //вычислим момент окончания работы видеокамеры
-                //System.out.println("A_VideoRegistrator RESET event");
+
                 result.add(events[i]);
                 lastEvent = events[i];
             }
