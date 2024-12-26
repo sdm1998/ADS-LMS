@@ -3,6 +3,7 @@ package by.it.group351051.belsky.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -33,7 +34,7 @@ import java.util.Scanner;
 public class C_QSortOptimized {
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment  implements Comparable<Segment> {
         int start;
         int stop;
 
@@ -43,9 +44,9 @@ public class C_QSortOptimized {
         }
 
         @Override
-        public int compareTo(Object o) {
+        public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+            return Integer.compare(this.start, o.start);
         }
     }
 
@@ -68,17 +69,60 @@ public class C_QSortOptimized {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
+        Arrays.sort(segments);
+
+        for (int i = 0; i < m; i++) {
+            int point = points[i];
+            result[i] = countSegmentsContainingPoint(segments, point);
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    private int countSegmentsContainingPoint(Segment[] segments, int point) {
+        int count = 0;
+
+        int index = binarySearch(segments, point);
+
+        if (index >= 0) {
+            while (index < segments.length && segments[index].start <= point) {
+                if (segments[index].stop >= point) {
+                    count++;
+                }
+                index++;
+            }
+        }
+
+        index = binarySearch(segments, point) - 1;
+        while (index >= 0 && segments[index].stop >= point) {
+            count++;
+            index--;
+        }
+
+        return count;
+    }
+
+    private int binarySearch(Segment[] segments, int point) {
+        int left = 0, right = segments.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (segments[mid].start <= point) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

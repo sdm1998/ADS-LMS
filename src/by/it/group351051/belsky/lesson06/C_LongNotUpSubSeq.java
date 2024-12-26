@@ -3,6 +3,8 @@ package by.it.group351051.belsky.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -50,8 +52,56 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
 
+        // Массив для хранения длин невозрастающих подпоследовательностей
+        int[] dp = new int[n];
+        // Массив для хранения индексов
+        int[] prevIndex = new int[n];
+        // Инициализируем все значения 1
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            prevIndex[i] = -1; // -1 означает, что нет предшествующего элемента
+        }
+
+        // Заполняем массив dp
+        int result = 0;
+        int maxIndex = 0;
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (m[i] <= m[j]) { // Проверяем невозрастание
+                    if (dp[j] + 1 > dp[i]) {
+                        dp[i] = dp[j] + 1;
+                        prevIndex[i] = j; // Запоминаем индекс предшественника
+                    }
+                }
+            }
+            // Обновляем максимальную длину и индекс
+            if (dp[i] > result) {
+                result = dp[i];
+                maxIndex = i;
+            }
+        }
+
+        // Восстанавливаем индексы
+        List<Integer> indices = new ArrayList<>();
+        while (maxIndex != -1) {
+            indices.add(maxIndex + 1); // Добавляем 1 для перехода к 1-индексации
+            maxIndex = prevIndex[maxIndex];
+        }
+
+        // Перевернем список, так как мы восстанавливали его в обратном порядке
+        List<Integer> resultIndices = new ArrayList<>();
+        for (int i = indices.size() - 1; i >= 0; i--) {
+            resultIndices.add(indices.get(i));
+        }
+
+        // Выводим результат
+        System.out.println(result);
+        for (int index : resultIndices) {
+            System.out.print(index + " ");
+        }
+        System.out.println();
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

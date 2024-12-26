@@ -14,6 +14,7 @@ package by.it.group351051.belsky.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -24,6 +25,11 @@ public class C_GreedyKnapsack {
         Item(int cost, int weight) {
             this.cost = cost;
             this.weight = weight;
+        }
+
+        // Стоимость на единицу веса
+        double getCostPerWeight() {
+            return (double) cost / weight;
         }
 
         @Override
@@ -38,8 +44,8 @@ public class C_GreedyKnapsack {
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
 
-
-            return 0;
+            // Сортировка по стоимости на единицу веса (по убыванию)
+            return Double.compare(o.getCostPerWeight(), this.getCostPerWeight());
         }
     }
 
@@ -66,9 +72,24 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
         //ваше решение.
 
+        // Сортируем предметы по стоимости на единицу веса
+        Arrays.sort(items);
 
+        for (Item item : items) {
+            if (W == 0) {
+                break;  // Рюкзак заполнен
+            }
 
-
+            if (item.weight <= W) {
+                // Если предмет помещается полностью
+                result += item.cost;
+                W -= item.weight;
+            } else {
+                // Если предмет не помещается полностью, берем его часть
+                result += item.cost * ((double) W / item.weight);
+                W = 0;  // Рюкзак больше не вмещает предметы
+            }
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

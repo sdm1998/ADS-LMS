@@ -1,6 +1,8 @@
 package by.it.group351051.belsky.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 /*
 даны интервальные события events
@@ -49,10 +51,18 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
 
+        Arrays.sort(events, Comparator.comparingInt(e -> e.stop));
 
+        int lastEndTime = from;  // Время, когда аудитория освобождается
 
-
-
+        // Проходим по всем событиям
+        for (Event event : events) {
+            // Если событие начинается после или в момент окончания последнего выбранного
+            if (event.start >= lastEndTime && event.stop <= to) {
+                result.add(event);  // Добавляем событие
+                lastEndTime = event.stop;  // Обновляем время, когда аудитория будет занята
+            }
+        }
 
         return result;                        //вернем итог
     }

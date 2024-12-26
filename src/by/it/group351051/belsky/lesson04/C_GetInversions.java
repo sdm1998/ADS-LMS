@@ -46,21 +46,65 @@ public class C_GetInversions {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
 
 
-
-
-
-
+        // Массив для временного хранения
+        int[] temp = new int[n];
+        // Подсчитываем инверсии с помощью модификации сортировки слиянием
+        return mergeSortAndCount(a, temp, 0, n - 1);
 
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
     }
 
+    // Метод сортировки слиянием с подсчетом инверсий
+    private int mergeSortAndCount(int[] array, int[] temp, int left, int right) {
+        int count = 0;
+        if (left < right) {
+            int mid = (left + right) / 2;
+
+            // Рекурсивно сортируем левую и правую части массива
+            count += mergeSortAndCount(array, temp, left, mid);
+            count += mergeSortAndCount(array, temp, mid + 1, right);
+
+            // Сливаем отсортированные части и подсчитываем инверсии
+            count += mergeAndCount(array, temp, left, mid, right);
+        }
+        return count;
+    }
+
+    // Метод слияния двух отсортированных частей массива с подсчетом инверсий
+    private int mergeAndCount(int[] array, int[] temp, int left, int mid, int right) {
+        int i = left, j = mid + 1, k = left;
+        int invCount = 0;
+
+        // Слияние двух отсортированных частей
+        while (i <= mid && j <= right) {
+            if (array[i] <= array[j]) {
+                temp[k++] = array[i++];
+            } else {
+                temp[k++] = array[j++];
+                invCount += (mid - i + 1);  // Все элементы с индексами от i до mid являются инверсиями с array[j]
+            }
+        }
+
+        // Копируем оставшиеся элементы левой части
+        while (i <= mid) {
+            temp[k++] = array[i++];
+        }
+
+        // Копируем оставшиеся элементы правой части
+        while (j <= right) {
+            temp[k++] = array[j++];
+        }
+
+        // Копируем отсортированный массив обратно в исходный
+        System.arraycopy(temp, left, array, left, right - left + 1);
+
+        return invCount;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

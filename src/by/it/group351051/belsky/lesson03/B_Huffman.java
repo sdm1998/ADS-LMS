@@ -2,6 +2,8 @@ package by.it.group351051.belsky.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -51,8 +53,30 @@ public class B_Huffman {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
 
+        scanner.nextLine();  // Считываем остаток строки после чисел
 
+        // Чтение кодов символов и сохранение их в Map
+        Map<String, Character> codes = new HashMap<>();
+        for (int i = 0; i < count; i++) {
+            String line = scanner.nextLine();
+            String letter = line.split(":")[0].trim();  // символ
+            String code = line.split(":")[1].trim();    // его код
+            codes.put(code, letter.charAt(0));  // добавляем в карту
+        }
 
+        // Чтение закодированной строки
+        String encodedString = scanner.nextLine();
+
+        // Декодирование строки
+        StringBuilder tempCode = new StringBuilder();
+        for (char c : encodedString.toCharArray()) {
+            tempCode.append(c);
+            // Проверяем, есть ли этот код в Map
+            if (codes.containsKey(tempCode.toString())) {
+                result.append(codes.get(tempCode.toString()));
+                tempCode.setLength(0);  // сбрасываем временный код
+            }
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111

@@ -1,6 +1,7 @@
 package by.it.group351051.belsky.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 даны события events
@@ -30,6 +31,9 @@ public class A_VideoRegistrator {
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
 
+        // Сортируем события по времени
+        Arrays.sort(events);
+
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
         //и запомним время старта видеокамеры
@@ -37,7 +41,17 @@ public class A_VideoRegistrator {
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
 
+        while (i < events.length) {
+            // Начинаем с первого не зарегистрированного события
+            double start = events[i];
+            result.add(start); // Запоминаем момент старта видеокамеры
+            double end = start + workDuration; // Момент окончания работы видеокамеры
 
+            // Пропускаем все события, которые покрыты текущим интервалом
+            while (i < events.length && events[i] <= end) {
+                i++;
+            }
+        }
 
         return result;                        //вернем итог
     }

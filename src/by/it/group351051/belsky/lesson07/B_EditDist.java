@@ -43,11 +43,39 @@ public class B_EditDist {
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+        int lenOne = one.length();
+        int lenTwo = two.length();
 
+        // Создаем двумерный массив для хранения расстояний
+        int[][] dp = new int[lenOne + 1][lenTwo + 1];
 
-        int result = 0;
+        // Заполняем первую строку и первый столбец
+        for (int i = 0; i <= lenOne; i++) {
+            dp[i][0] = i; // Расстояние от строки к пустой строке (удаление всех символов)
+        }
+        for (int j = 0; j <= lenTwo; j++) {
+            dp[0][j] = j; // Расстояние от пустой строки к строке (вставка всех символов)
+        }
+
+        // Заполняем массив dp
+        for (int i = 1; i <= lenOne; i++) {
+            for (int j = 1; j <= lenTwo; j++) {
+                if (one.charAt(i - 1) == two.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1]; // Если символы равны, берем значение диагонали
+                } else {
+                    // Рассчитываем минимальные операции: вставка, удаление, замена
+                    int insert = dp[i][j - 1] + 1; // Вставка
+                    int delete = dp[i - 1][j] + 1; // Удаление
+                    int replace = dp[i - 1][j - 1] + 1; // Замена
+                    dp[i][j] = Math.min(insert, Math.min(delete, replace)); // Минимум из трех
+                }
+            }
+        }
+
+        // Возвращаем расстояние редактирования
+        return dp[lenOne][lenTwo];
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
     }
 
 

@@ -3,6 +3,8 @@ package by.it.group351051.belsky.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /*
@@ -82,8 +84,36 @@ public class A_QSort {
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
+        // Сортируем отрезки
+        Arrays.sort(segments);
 
+        // Создаем массив для точек и их индексов
+        int[][] indexedPoints = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            indexedPoints[i][0] = points[i];
+            indexedPoints[i][1] = i;
+        }
 
+        // Сортируем точки
+        Arrays.sort(indexedPoints, Comparator.comparingInt(a -> a[0]));
+
+        // Подсчет камер для каждой точки
+        int j = 0; // указатель на отрезки
+        for (int i = 0; i < m; i++) {
+            int point = indexedPoints[i][0];
+            while (j < n && segments[j].stop < point) {
+                j++; // Пропускаем отрезки, которые закончились до точки
+            }
+            int count = 0;
+            for (int k = j; k < n; k++) {
+                if (segments[k].start <= point && segments[k].stop >= point) {
+                    count++; // Считаем отрезки, которые охватывают точку
+                } else {
+                    break; // Если отрезок закончился, остальные не могут охватывать
+                }
+            }
+            result[indexedPoints[i][1]] = count; // Записываем результат по индексу точки
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

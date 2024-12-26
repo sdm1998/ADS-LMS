@@ -44,22 +44,61 @@ public class C_HeapMax {
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вверх
+            int leftChild = 2 * i + 1;
+            int rightChild = 2 * i + 2;
+            int largest = i;
+
+            // Находим наибольший элемент среди родителя и двух детей
+            if (leftChild < heap.size() && heap.get(leftChild) > heap.get(largest)) {
+                largest = leftChild;
+            }
+            if (rightChild < heap.size() && heap.get(rightChild) > heap.get(largest)) {
+                largest = rightChild;
+            }
+
+            // Если наибольший элемент не родитель, меняем местами
+            if (largest != i) {
+                Long temp = heap.get(i);
+                heap.set(i, heap.get(largest));
+                heap.set(largest, temp);
+                siftDown(largest);  // Рекурсивно просеиваем вниз
+            }
 
             return i;
         }
 
         int siftUp(int i) { //просеивание вниз
-
+            while (i > 0) {
+                int parent = (i - 1) / 2;
+                if (heap.get(i) <= heap.get(parent)) {
+                    break;
+                }
+                // Меняем местами
+                Long temp = heap.get(i);
+                heap.set(i, heap.get(parent));
+                heap.set(parent, temp);
+                i = parent;
+            }
             return i;
         }
 
         void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);  // Вставляем элемент и просеиваем вверх
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
+            if (heap.size() == 0) {
+                return null;  // Если куча пуста
+            }
+            Long max = heap.get(0);  // Максимум в корне
+            Long last = heap.remove(heap.size() - 1);  // Удаляем последний элемент
 
-            return result;
+            if (heap.size() > 0) {
+                heap.set(0, last);  // Перемещаем последний элемент на место корня
+                siftDown(0);  // Просеиваем вниз
+            }
+            return max;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }

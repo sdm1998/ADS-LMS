@@ -25,9 +25,40 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+
+        // Находим период Пизано для m
+        long pisanoPeriod = pisanoPeriod(m);
+
+        // Вычисляем n % pisanoPeriod для сокращения вычислений
+        n = n % pisanoPeriod;
+
+        // Вычисляем n-е число Фибоначчи по модулю m
+        return fibonacciMod(n, m);
     }
 
+    long pisanoPeriod(int m) {
+        long previous = 0, current = 1;
+        for (long i = 0; i < m * m; i++) {
+            long temp = current;
+            current = (previous + current) % m;
+            previous = temp;
 
+            // Период Пизано начинается с 0, 1
+            if (previous == 0 && current == 1) {
+                return i + 1;
+            }
+        }
+        return 0;
+    }
+
+    long fibonacciMod(long n, int m) {
+        long previous = 0, current = 1;
+        for (long i = 2; i <= n; i++) {
+            long temp = current;
+            current = (previous + current) % m;
+            previous = temp;
+        }
+        return current;
+    }
 }
 

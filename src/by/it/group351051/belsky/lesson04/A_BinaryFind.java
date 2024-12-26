@@ -50,12 +50,31 @@ public class A_BinaryFind {
 
 
 
-            result[i]=0;
+            result[i] = binarySearch(a, value);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    // Метод для выполнения бинарного поиска
+    int binarySearch(int[] array, int target) {
+        int left = 0, right = array.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (array[mid] == target) {
+                return mid + 1; // Возвращаем индекс, смещенный на 1
+            }
+            if (array[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1; // Если элемент не найден
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

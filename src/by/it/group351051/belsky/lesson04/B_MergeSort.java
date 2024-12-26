@@ -39,13 +39,67 @@ public class B_MergeSort {
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
 
 
-
+        // Вызов метода сортировки слиянием
+        mergeSort(a, 0, n - 1);
 
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
     }
+
+    // Рекурсивная сортировка слиянием
+    private void mergeSort(int[] array, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSort(array, left, mid);  // Сортируем левую часть
+            mergeSort(array, mid + 1, right);  // Сортируем правую часть
+            merge(array, left, mid, right);  // Сливаем обе части
+        }
+    }
+
+    // Метод для слияния двух отсортированных частей массива
+    private void merge(int[] array, int left, int mid, int right) {
+        int n1 = mid - left + 1;  // Размер левой части
+        int n2 = right - mid;  // Размер правой части
+
+        // Временные массивы для левой и правой части
+        int[] leftArray = new int[n1];
+        int[] rightArray = new int[n2];
+
+        // Копируем данные в временные массивы
+        System.arraycopy(array, left, leftArray, 0, n1);
+        System.arraycopy(array, mid + 1, rightArray, 0, n2);
+
+        // Индексы для временных массивов и оригинального массива
+        int i = 0, j = 0, k = left;
+
+        // Слияние двух отсортированных частей
+        while (i < n1 && j < n2) {
+            if (leftArray[i] <= rightArray[j]) {
+                array[k] = leftArray[i];
+                i++;
+            } else {
+                array[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Копируем оставшиеся элементы, если есть
+        while (i < n1) {
+            array[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            array[k] = rightArray[j];
+            j++;
+            k++;
+        }
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");
