@@ -1,7 +1,11 @@
-package by.it.group310951.porepko.lesson01.lesson02;
+package by.it.group310951.porepko.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+import java.util.Comparator;
+
+
 /*
 даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -10,6 +14,7 @@ import java.util.List;
 */
 
 public class B_Sheduler {
+
     //событие у аудитории(два поля: начало и конец)
     static class Event {
         int start;
@@ -45,15 +50,27 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
-        List<Event> result;
-        result = new ArrayList<>();
-        //ваше решение.
+
+
+        //ваше решение
+
+        // Сортируем события по времени окончания (
+        Arrays.sort(events, Comparator.comparingInt(event -> event.stop));
+
+        List<Event> result = new ArrayList<>();
+        int currentEnd = from;
+
+        for (Event event : events) {
+            // проверка, не пересекаются ли события
+            if (event.start >= currentEnd && event.stop <= to) {
+                result.add(event);
+                currentEnd = event.stop; // обновляем текущее время окончания
+            }
+        }
 
 
 
 
-
-
-        return result;                        //вернем итог
+        return result;                        //возвращаем итог
     }
 }
