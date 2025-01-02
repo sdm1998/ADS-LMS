@@ -35,31 +35,25 @@ public class FiboA {
         return calc(n - 1) + calc (n -2);
     }
 
-    private BigInteger calcBigInt(BigInteger n) {
-        // вариант без ограничения на размер числа, в котором код совпадает с мат.определением чисел Фибоначчи
-        //время O(2^n)
-
-        if (Objects.equals(n, BigInteger.ZERO)) return BigInteger.ZERO;
-        if (Objects.equals(n, BigInteger.ONE)) return BigInteger.ONE;
-
-        return calcBigInt(n.subtract(BigInteger.ONE)).add(calcBigInt(n.subtract(BigInteger.TWO)));
-    }
 
 
 
+
+        private BigInteger calcBigInt(BigInteger n) {
+            // вариант без ограничения на размер числа, в котором код совпадает с мат.определением чисел Фибоначчи
+            //время O(2^n)
+
+            if (Objects.equals(n, BigInteger.ZERO)) return BigInteger.ZERO;
+            if (Objects.equals(n, BigInteger.ONE)) return BigInteger.ONE;
+
+            return calcBigInt(n.subtract(BigInteger.ONE)).add(calcBigInt(n.subtract(BigInteger.TWO)));
+        }
 
     BigInteger slowA(Integer n) {
-        //рекурсия
-        //здесь нужно реализовать вариант без ограничения на размер числа,
-        //в котором код совпадает с мат.определением чисел Фибоначчи
-        //время O(2^n)
-
         FiboA fibo = new FiboA();
 
         return fibo.calcBigInt(BigInteger.valueOf(n));
-
     }
 
-
-
 }
+
