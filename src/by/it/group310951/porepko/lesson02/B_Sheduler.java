@@ -54,23 +54,21 @@ public class B_Sheduler {
 
         //ваше решение
 
-        // Сортируем события по времени окончания (
-        Arrays.sort(events, Comparator.comparingInt(event -> event.stop));
+        // сортируем события по времени окончания
+        Arrays.sort(events, Comparator.comparingInt(e -> e.stop));
 
-        List<Event> result = new ArrayList<>();
-        int currentEnd = from;
+        List<Event> result = new ArrayList<>(); // список для хранения выбранных событий
+        int lastEventEnd = from; // время окончания последнего выбранного события
 
         for (Event event : events) {
-            // проверка, не пересекаются ли события
-            if (event.start >= currentEnd && event.stop <= to) {
-                result.add(event);
-                currentEnd = event.stop; // обновляем текущее время окончания
+
+            // если событие начинается после окончания последнего выбранного события
+            if (event.start >= lastEventEnd && event.stop <= to) {
+                result.add(event); // добавляем событие в результат
+                lastEventEnd = event.stop; // обновляем время окончания последнего выбранного события
             }
         }
 
-
-
-
-        return result;                        //возвращаем итог
+        return result;
     }
 }

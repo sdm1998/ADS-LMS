@@ -25,30 +25,26 @@ public class A_VideoRegistrator {
 
         //events - события которые нужно зарегистрировать
         //timeWorkDuration время работы видеокамеры после старта
-        List<Double> result;
 
-
-        //hint: сортировка Arrays.sort обеспечит скорость алгоритма
-        //C*(n log n) + C1*n = O(n log n)
-
+        // сортируем события по возрастанию
         Arrays.sort(events);
-        result = new ArrayList<>();
-        result.add(events[0]);
 
-        // время старта видеокамеры
-        double lastEvent = events[0];
+        List<Double> starts = new ArrayList<>(); // список для хранения моментов старта
+        double lastEndTime = -1; // время окончания последнего сеанса
 
-        for (int i = 1; i < events.length; i++) {
-            //System.out.printf("A_VideoRegistrator event = %f\n", events[i]);
-            //System.out.printf("A_VideoRegistrator lastEvent + workDuration = %f\n", lastEvent + workDuration);
-            if (events[i] > lastEvent + workDuration) {  //вычислим момент окончания работы видеокамеры
+        for (double event : events) {
 
-                result.add(events[i]);
-                lastEvent = events[i];
+            // если событие не покрыто предыдущим
+            if (event > lastEndTime) {
+
+                // включаем регистратор в момент начала события
+                starts.add(event);
+
+                // обновляем время окончания последнего сеанса
+                lastEndTime = event + workDuration;
             }
         }
 
-
-        return result;                        //вернем итог
+        return starts;
     }
 }
