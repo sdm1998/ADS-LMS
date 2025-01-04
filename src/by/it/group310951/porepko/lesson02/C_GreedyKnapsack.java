@@ -79,6 +79,7 @@ public class C_GreedyKnapsack {
                     result += item.cost;
                     currentWeight += item.weight;
                 } else {
+
                     // берем часть предмета
                     result += (double) item.cost * remainingWeight / item.weight;
                     break;
