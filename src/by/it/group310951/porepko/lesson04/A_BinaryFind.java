@@ -30,6 +30,7 @@ public class A_BinaryFind {
     int[] findIndex(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
         //размер отсортированного массива
@@ -49,7 +50,6 @@ public class A_BinaryFind {
 
             //тут реализуйте бинарный поиск индекса
 
-
             int left = 0;
             int right = n - 1;
             int foundIndex = -1; // считаем, что нужный элемент не найден
@@ -66,7 +66,6 @@ public class A_BinaryFind {
             }
             result[i] = foundIndex;
         }
-
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
