@@ -37,6 +37,7 @@ public class B_LongDivComSubSeq {
         Scanner scanner = new Scanner(stream);
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
@@ -57,7 +58,6 @@ public class B_LongDivComSubSeq {
         }
 
         // динамическое программирование для вычисления наибольшей кратной подпоследовательности
-
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 if (m[i] % m[j] == 0) {

@@ -41,6 +41,7 @@ public class C_LongNotUpSubSeq {
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
         //общая длина последовательности
@@ -68,7 +69,6 @@ public class C_LongNotUpSubSeq {
         }
 
         // динамическое программирование для вычисления наибольшей невозрастающей подпоследовательности
-
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
                 if (m[i] <= m[j] && dp1[i] < dp1[j] + 1) {
