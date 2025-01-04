@@ -107,11 +107,9 @@ public class A_QSort {
         for (int j = low; j < high; j++) {
             // сравниваем текущий элемент с опорным
             if (arr[j].compareTo(pivot) == 0) {
-                //System.out.printf("segment start %d > pivot start %d\n", arr[j].start, pivot.start);
                 i++;
                 swap(arr, i, j);
-                //} else {
-                //System.out.printf("segment start %d <= pivot start %d\n", arr[j].start, pivot.start);
+
             }
         }
         // перемещаем опорный элемент между большим и меньшим
@@ -123,6 +121,7 @@ public class A_QSort {
 
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
+
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
 

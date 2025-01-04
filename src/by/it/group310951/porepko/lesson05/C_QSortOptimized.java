@@ -44,6 +44,7 @@ public class C_QSortOptimized {
 
         @Override
         public int compareTo(Object o) {
+
             //подумайте, что должен возвращать компаратор отрезков
             return 0;
         }
@@ -53,6 +54,7 @@ public class C_QSortOptimized {
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //число отрезков отсортированного массива
         int n = scanner.nextInt();
