@@ -58,6 +58,7 @@ public class A_EditDist {
         }
 
         // если последние символы разные, вычисляем минимальную стоимость трех операций:
+
         int insert = calculateLevenshteinDistance(one, two, m, n - 1);    // вставка
         int remove = calculateLevenshteinDistance(one, two, m - 1, n);   // удаление
         int replace = calculateLevenshteinDistance(one, two, m - 1, n - 1); // замена

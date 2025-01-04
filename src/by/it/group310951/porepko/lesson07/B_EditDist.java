@@ -98,7 +98,6 @@ public class B_EditDist {
             System.out.println();
         }
 
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
         return editingMatrix[two.length()][one.length()];
