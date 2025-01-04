@@ -39,13 +39,7 @@ import java.util.Arrays;
     Sample Output 2:
     +e,#,#,-s,#,~i,#,-c,~g,
 
-
-    P.S. В литературе обычно действия редакционных предписаний обозначаются так:
-    - D (англ. delete) — удалить,
-    + I (англ. insert) — вставить,
-    ~ R (replace) — заменить,
-    # M (match) — совпадение.
-*/
+   */
 
 
 public class C_EditDist {
@@ -53,7 +47,6 @@ public class C_EditDist {
     String getDistanceEdinting(String one, String two) {
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
 
         //  одна из строк пустая
         if (one.isEmpty()) {
@@ -157,6 +150,7 @@ public class C_EditDist {
             }
             System.out.println();
         }
+
         // восстановление пути c конца матрицы
         StringBuilder result = new StringBuilder();
         int i = two.length(), j = one.length();

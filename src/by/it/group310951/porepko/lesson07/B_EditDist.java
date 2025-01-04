@@ -51,7 +51,7 @@ public class B_EditDist {
             return 0;
         }
         // задаем матрицу для вычисления расстояния редактирования
-        int[][] editingMatrix = new int[two.length()+1][one.length()+1];
+        int[][] editingMatrix = new int[two.length() + 1][one.length() + 1];
 
         // заполняем первую строку
         for (int i = 1; i <= one.length(); i++) {
@@ -66,11 +66,11 @@ public class B_EditDist {
             for (int j = 1; j < editingMatrix[i].length; j++) {
 
                 // если символы не равны, то инкриминируем значение изменения
-                int m = one.charAt(j-1)==two.charAt(i-1) ? 0 : 1;
+                int m = one.charAt(j - 1) == two.charAt(i - 1) ? 0 : 1;
                 int[] sequence = {
-                        editingMatrix[i-1][j] + 1, // вставка
-                        editingMatrix[i][j-1] + 1, // удаление
-                        editingMatrix[i-1][j-1] + m,  // замена
+                        editingMatrix[i - 1][j] + 1, // вставка
+                        editingMatrix[i][j - 1] + 1, // удаление
+                        editingMatrix[i - 1][j - 1] + m,  // замена
                 };
 
                 // находим минимальное значение
@@ -87,9 +87,11 @@ public class B_EditDist {
         }
         System.out.println();
         for (int i = 0; i < editingMatrix.length; i++) {
-            if (i>0) {
-                System.out.print(two.charAt(i-1) + " ");
-            } else {System.out.print("  ");}
+            if (i > 0) {
+                System.out.print(two.charAt(i - 1) + " ");
+            } else {
+                System.out.print("  ");
+            }
             for (int j = 0; j < editingMatrix[i].length; j++) {
                 System.out.print(editingMatrix[i][j] + " ");
             }
