@@ -55,6 +55,7 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
         //тут запишите ваше решение
 
         System.out.println(scanner);
@@ -73,7 +74,6 @@ public class B_Huffman {
                 String value = matcher.group(2);  // получаем значение
 
                 // добавляем в словарь
-
                 codesMap.put(key, value);
             }
         }
