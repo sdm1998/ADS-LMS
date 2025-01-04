@@ -35,8 +35,8 @@ public class FiboC {
             int oldNext = next;
             next = (current + next) % m;
             current = oldNext;
-            period ++;
-            if (current == 0 && next ==1) {
+            period++;
+            if (current == 0 && next == 1) {
                 return period;
             }
         }

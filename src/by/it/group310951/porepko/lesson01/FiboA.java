@@ -41,10 +41,11 @@ public class FiboA {
 
 
 
+
         private BigInteger calcBigInt(BigInteger n) {
+
             // вариант без ограничения на размер числа, в котором код совпадает с мат.определением чисел Фибоначчи
             //время O(2^n)
-
             if (Objects.equals(n, BigInteger.ZERO)) return BigInteger.ZERO;
             if (Objects.equals(n, BigInteger.ONE)) return BigInteger.ONE;
 
