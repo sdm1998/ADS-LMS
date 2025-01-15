@@ -37,13 +37,10 @@ import java.util.Scanner;
 public class C_HeapMax {
 
     private class MaxHeap {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
 
         private List<Long> heap = new ArrayList<>();
 
-        int siftDown(int i) { //просеивание вверх
+        int siftDown(int i) {
             while (2 * i + 1 < heap.size()) {
                 int left = 2 * i + 1;
                 int right = 2 * i + 2;
@@ -60,7 +57,7 @@ public class C_HeapMax {
             return i;
         }
 
-        int siftUp(int i) { //просеивание вниз
+        int siftUp(int i) {
             while (i > 0 && heap.get((i - 1) / 2) < heap.get(i)) {
                 swap(i, (i - 1) / 2);
                 i = (i - 1) / 2;
@@ -68,12 +65,12 @@ public class C_HeapMax {
             return i;
         }
 
-        void insert(Long value) { //вставка
+        void insert(Long value) {
             heap.add(value);
             siftUp(heap.size() - 1);
         }
 
-        Long extractMax() { //извлечение и удаление максимума
+        Long extractMax() {
             if (heap.isEmpty()) {
                 return null;
             }

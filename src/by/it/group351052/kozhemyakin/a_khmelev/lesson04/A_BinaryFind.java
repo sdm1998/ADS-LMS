@@ -47,14 +47,14 @@ public class A_BinaryFind {
         return result;
     }
 
-    // Бинарный поиск возвращает (индекс + 1), если элемент найден, иначе -1
+
     private int binarySearch(int[] arr, int val) {
         int left = 0;
         int right = arr.length - 1;
         while (left <= right) {
-            int mid = (left + right) >>> 1; // тот же (left+right)/2, но безопаснее
+            int mid = (left + right) >>> 1;
             if (arr[mid] == val) {
-                return mid + 1; // т.к. задача нумерует с 1
+                return mid + 1;
             } else if (arr[mid] < val) {
                 left = mid + 1;
             } else {

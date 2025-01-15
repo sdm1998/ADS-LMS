@@ -76,25 +76,16 @@ public class C_QSortOptimized {
             points[i] = scanner.nextInt();
         }
 
-        // Сортировка на месте с использованием 3-разбиения и элиминации хвостовой рекурсии
         threeWayQuickSortIterative(segments, 0, n - 1);
 
-        // Для каждой точки ищем все подходящие отрезки:
-        // 1) Бинарный поиск, чтобы найти позицию первого отрезка,
-        //    у которого start <= point
-        // 2) От найденной позиции "идём" влево/вправо, проверяя, подходят ли отрезки
-        //    (stop >= point)
 
         for (int i = 0; i < m; i++) {
             int p = points[i];
-            // Находим индекс (любого) отрезка, где start <= p
             int idx = binarySearchFirst(segments, p);
-            // Если idx == -1, ни один отрезок не начинается <= p
             if (idx == -1) {
                 result[i] = 0;
                 continue;
             }
-            // Затем распространяемся от idx влево и вправо
             int count = 0;
 
             // Идём влево
@@ -105,8 +96,6 @@ public class C_QSortOptimized {
                 }
                 left--;
             }
-
-            // Идём вправо
             int right = idx + 1;
             while (right < n && segments[right].start <= p) {
                 if (segments[right].stop >= p) {
@@ -123,12 +112,10 @@ public class C_QSortOptimized {
 
     // Элиминация хвостовой рекурсии: организуем стек вручную
     private void threeWayQuickSortIterative(Segment[] arr, int left, int right) {
-        // Стек участков [l, r], которые надо сортировать
         int[] stackLeft = new int[arr.length + 1];
         int[] stackRight = new int[arr.length + 1];
         int top = -1;
 
-        // Помещаем начальный участок
         top++;
         stackLeft[top] = left;
         stackRight[top] = right;
@@ -159,14 +146,10 @@ public class C_QSortOptimized {
                         i++;
                     }
                 }
-                // Текущее разбиение: [l..lt-1] < pivot, [lt..gt] = pivot, [gt+1..r] > pivot
 
-                // Смотрим, какой участок короче, чтобы продолжить без глубокой рекурсии
-                // Отправляем меньший участок в стек, а в большем продолжаем цикл.
                 int leftSize = lt - l;
                 int rightSize = r - gt;
 
-                // Меньший участок в стек
                 if (leftSize < rightSize) {
                     if (l < lt - 1) {
                         top++;

@@ -18,17 +18,13 @@ import java.util.Scanner;
 public class B_CountSort {
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         int n = scanner.nextInt();
         int[] points = new int[n];
         for (int i = 0; i < n; i++) {
             points[i] = scanner.nextInt();
         }
-
-        //тут реализуйте логику задачи с применением сортировки подсчетом
-        int maxValue = 10;                // по условию не превышает 10
+        int maxValue = 10;
         int[] count = new int[maxValue+1];
         for (int value : points) {
             count[value]++;
@@ -40,8 +36,6 @@ public class B_CountSort {
                 count[num]--;
             }
         }
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }
 

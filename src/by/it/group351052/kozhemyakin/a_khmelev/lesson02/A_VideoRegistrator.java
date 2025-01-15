@@ -24,7 +24,6 @@ public class A_VideoRegistrator {
         //events - события которые нужно зарегистрировать
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result =  new ArrayList<>();
-        result = new ArrayList<>();
         Arrays.sort(events);
 
         int i=0;                              //i - это индекс события events[i]

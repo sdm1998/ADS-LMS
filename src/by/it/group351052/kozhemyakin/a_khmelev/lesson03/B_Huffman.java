@@ -50,7 +50,7 @@ public class B_Huffman {
         Scanner scanner = new Scanner(file);
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
 
         Map<String, Character> decodeMap = new HashMap<>();
         for (int i = 0; i < count; i++) {
@@ -80,7 +80,6 @@ public class B_Huffman {
             }
         }
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString();
     }
 

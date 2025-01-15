@@ -1,6 +1,7 @@
 package by.it.group351052.kozhemyakin.a_khmelev.lesson02;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Arrays;
 
@@ -43,21 +44,19 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-        //events - события которые нужно распределить в аудитории
-        //в период [from, int] (включительно).
-        //оптимизация проводится по наибольшему числу непересекающихся событий.
-        //начало и конец событий могут совпадать.
+
         List<Event> result;
         result = new ArrayList<>();
-        Arrays.sort(events, (e1, e2) -> e1.stop - e2.stop);
-        int currentEnd = from;
+
+        Arrays.sort(events, Comparator.comparingInt( e -> e.stop));
+        int LastStopTime = from;
         for (Event e : events) {
-            if (e.start >= currentEnd && e.stop <= to) {
+            if (e.start >= LastStopTime && e.stop <= to) {
                 result.add(e);
-                currentEnd = e.stop;
+                LastStopTime = e.stop;
             }
         }
 
-        return result;                        //вернем итог
+        return result;
     }
 }

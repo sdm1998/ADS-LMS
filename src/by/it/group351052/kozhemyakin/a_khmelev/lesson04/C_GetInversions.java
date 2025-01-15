@@ -38,7 +38,6 @@ public class C_GetInversions {
         return result;
     }
 
-    // Реализация сортировки слиянием и параллельного подсчета инверсий
     private int mergeSortAndCount(int[] arr, int left, int right) {
         if (left >= right) {
             return 0;
@@ -50,12 +49,11 @@ public class C_GetInversions {
         return inversionsLeft + inversionsRight + inversionsMerge;
     }
 
-    // Слияние двух отсортированных частей и подсчет "перекрестных" инверсий
     private int mergeAndCount(int[] arr, int left, int mid, int right) {
         int[] temp = new int[right - left + 1];
-        int i = left;       // указатель левой половины
-        int j = mid + 1;    // указатель правой половины
-        int k = 0;          // указатель во временном массиве
+        int i = left;
+        int j = mid + 1;
+        int k = 0;
         int inversions = 0;
 
         while (i <= mid && j <= right) {
@@ -63,7 +61,7 @@ public class C_GetInversions {
                 temp[k++] = arr[i++];
             } else {
                 temp[k++] = arr[j++];
-                // все элементы с i до mid больше arr[j], значит инверсии
+
                 inversions += (mid - i + 1);
             }
         }
@@ -73,7 +71,7 @@ public class C_GetInversions {
         while (j <= right) {
             temp[k++] = arr[j++];
         }
-        // копируем обратно в исходный массив
+
         for (int t = 0; t < temp.length; t++) {
             arr[left + t] = temp[t];
         }
