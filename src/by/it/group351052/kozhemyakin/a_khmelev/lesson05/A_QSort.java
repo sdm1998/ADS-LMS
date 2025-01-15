@@ -52,52 +52,137 @@ public class A_QSort {
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-
+            //но сама задача решается, если мы храним отдельно начала и концы
+            //в отдельных массивах. Поэтому тут можно вернуть 0 или
+            //любой другой вариант, если не используется непосредственно сортировка Segment
             return 0;
         }
     }
-
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //число отрезков отсортированного массива
         int n = scanner.nextInt();
-        Segment[] segments=new Segment[n];
-        //число точек
+        Segment[] segments = new Segment[n];
         int m = scanner.nextInt();
-        int[] points=new int[m];
-        int[] result=new int[m];
+        int[] points = new int[m];
+        int[] result = new int[m];
 
-        //читаем сами отрезки
+        //читаем отрезки
+        int[] starts = new int[n];
+        int[] ends   = new int[n];
         for (int i = 0; i < n; i++) {
-            //читаем начало и конец каждого отрезка
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            int s = scanner.nextInt();
+            int t = scanner.nextInt();
+            // ai <= bi по условию, значит s <= t
+            segments[i] = new Segment(s, t);
+            starts[i] = s;
+            ends[i] = t;
         }
+
         //читаем точки
         for (int i = 0; i < m; i++) {
-            points[i]=scanner.nextInt();
+            points[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи с применением быстрой сортировки
-        //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
+        // Отсортируем массивы starts и ends быстрыми сортировками
+        quickSort(starts, 0, n - 1);
+        quickSort(ends,   0, n - 1);
 
+        // Для каждой точки считаем,
+        // сколько отрезков ей покрывается:
+        //  c1 = количество starts, которые <= point
+        //  c2 = количество ends,   которые <  point
+        //  answer = c1 - c2
+        //
+        // Если точка на границе (point == end), то она входит в отрезок.
 
+        for (int i = 0; i < m; i++) {
+            int point = points[i];
+            // c1 - сколько starts <= point
+            int c1 = countLessOrEqual(starts, point);
+            // c2 - сколько ends < point
+            int c2 = countLess(ends, point);
+            result[i] = c1 - c2;
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    // Быстрая сортировка массива (реализация in-place)
+    private void quickSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int pivotIndex = partition(arr, left, right);
+            quickSort(arr, left, pivotIndex - 1);
+            quickSort(arr, pivotIndex + 1, right);
+        }
+    }
+
+    // Разбиение массива для быстрой сортировки
+    private int partition(int[] arr, int left, int right) {
+        int pivot = arr[right];
+        int i = left;
+        for (int j = left; j < right; j++) {
+            if (arr[j] <= pivot) {
+                swap(arr, i, j);
+                i++;
+            }
+        }
+        swap(arr, i, right);
+        return i;
+    }
+
+    private void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
+    // Считаем, сколько элементов в arr строго меньше value
+    private int countLess(int[] arr, int value) {
+        // бинарный поиск
+        int left = 0;
+        int right = arr.length - 1;
+        int res = arr.length;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (arr[mid] < value) {
+                left = mid + 1;
+            } else {
+                res = mid;
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
+
+    // Считаем, сколько элементов в arr <= value
+    private int countLessOrEqual(int[] arr, int value) {
+        // бинарный поиск
+        int left = 0;
+        int right = arr.length - 1;
+        int res = arr.length;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (arr[mid] <= value) {
+                left = mid + 1;
+            } else {
+                res = mid;
+                right = mid - 1;
+            }
+        }
+        return res;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataA.txt");
         A_QSort instance = new A_QSort();
-        int[] result=instance.getAccessory(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        int[] result = instance.getAccessory(stream);
+        for (int index: result){
+            System.out.print(index + " ");
         }
     }
-
 }

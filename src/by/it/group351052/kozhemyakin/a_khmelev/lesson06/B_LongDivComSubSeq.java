@@ -30,26 +30,36 @@ import java.util.Scanner;
 
 public class B_LongDivComSubSeq {
 
-
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
-        //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
+
+        // dp[i] будет хранить длину максимально возможной кратной подпоследовательности,
+        // заканчивающейся на элементе с индексом i
+        int[] dp = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1; // как минимум длина 1 (сам элемент)
+            for (int j = 0; j < i; j++) {
+                // проверяем условие кратности
+                if (m[i] % m[j] == 0 && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                }
+            }
+        }
+
         int result = 0;
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        for (int value : dp) {
+            if (value > result) {
+                result = value;
+            }
+        }
         return result;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
@@ -58,5 +68,4 @@ public class B_LongDivComSubSeq {
         int result = instance.getDivSeqSize(stream);
         System.out.print(result);
     }
-
 }

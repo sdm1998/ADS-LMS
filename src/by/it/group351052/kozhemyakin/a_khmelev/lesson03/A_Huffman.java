@@ -7,18 +7,18 @@ import java.util.*;
 //Lesson 3. A_Huffman.
 //Разработайте метод encode(File file) для кодирования строки (код Хаффмана)
 
-// По данным файла (непустой строке ss длины не более 104104),
+// По данным файла (непустой строке ss длины не более 104),
 // состоящей из строчных букв латинского алфавита,
 // постройте оптимальный по суммарной длине беспрефиксный код.
-
+//
 // Используйте Алгоритм Хаффмана — жадный алгоритм оптимального
 // безпрефиксного кодирования алфавита с минимальной избыточностью.
-
+//
 // В первой строке выведите количество различных букв kk,
 // встречающихся в строке, и размер получившейся закодированной строки.
 // В следующих kk строках запишите коды букв в формате "letter: code".
 // В последней строке выведите закодированную строку. Примеры ниже
-
+//
 //        Sample Input 1:
 //        a
 //
@@ -26,7 +26,7 @@ import java.util.*;
 //        1 1
 //        a: 0
 //        0
-
+//
 //        Sample Input 2:
 //        abacabad
 //
@@ -84,7 +84,6 @@ public class A_Huffman {
             left.fillCodes(code + "0");
             right.fillCodes(code + "1");
         }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -109,39 +108,59 @@ public class A_Huffman {
     //индекс данных из листьев
     static private Map<Character, String> codes = new TreeMap<>();
 
-
     //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     String encode(File file) throws FileNotFoundException {
-        //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
 
-        //все комментарии от тестового решения были оставлены т.к. это задание A.
-        //если они вам мешают их можно удалить
-
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
-            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            count.put(c, count.getOrDefault(c, 0) + 1);
+        }
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        for (Map.Entry<Character, Integer> entry : count.entrySet()) {
+            priorityQueue.add(new LeafNode(entry.getValue(), entry.getKey()));
+        }
 
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
+        while (priorityQueue.size() > 1) {
+            Node left = priorityQueue.poll();
+            Node right = priorityQueue.poll();
+            InternalNode parent = new InternalNode(left, right);
+            priorityQueue.add(parent);
+        }
 
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
+        codes.clear();
+        Node root = priorityQueue.peek();
+        //обрабатываем случай, если в строке был только один уникальный символ
+        if (priorityQueue.size() == 1) {
+            if (count.size() == 1) {
+                // тогда код будет "0" для единственного символа
+                root.fillCodes("");
+            }
+        }
+        if (root != null) {
+            root.fillCodes("");
+        }
+
         StringBuilder sb = new StringBuilder();
-        //.....
+        //сформируем выходную строку
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(codes.get(s.charAt(i)));
+        }
 
         return sb.toString();
-        //01001100100111
-        //01001100100111
     }
     //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
@@ -156,5 +175,4 @@ public class A_Huffman {
         }
         System.out.println(result);
     }
-
 }
