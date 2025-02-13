@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson02;
+package by.it.group351051.a_hancharyk.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -14,6 +14,7 @@ package by.it.a_khmelev.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -43,9 +44,38 @@ public class C_GreedyKnapsack {
         }
     }
 
+    //функция возвращает стоимость собранного рюкзака(максимальную стоимость)
+    int getCost(Item[] items, int capacity)
+    {
+        int result = 0;
+        int i = 0;
+        while (capacity > 0) {
+            if (capacity >= items[i].weight) {
+                result += items[i].cost;
+                capacity -= items[i].weight;// W = W -  items[i].weight
+            } else {
+                int weightCost = items[i].cost / items[i].weight;//стоимость разрезанного предмета
+                result += weightCost * capacity;
+                capacity = 0;
+            }
+            i++;
+        }
+        return result;
+    }
 
+    void sorting(Item[] array) {
 
+        for (int i = 0; i < array.length; i++) {
+            for (int j = i; j < array.length; j++) {
+                if (array[j].cost / array[j].weight > array[i].cost / array[i].weight) {
+                    Item temp = array[j];
+                    array[j] = array[i];
+                    array[i] = temp;
 
+                }
+            }
+        }
+    }
 
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);
@@ -59,10 +89,7 @@ public class C_GreedyKnapsack {
         for (Item item:items) {
             System.out.println(item);
         }
-
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
-
-
 
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
@@ -74,8 +101,8 @@ public class C_GreedyKnapsack {
         //ваше решение.
 
 
-
-
+        sorting(items);
+        result = getCost(items, W);
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

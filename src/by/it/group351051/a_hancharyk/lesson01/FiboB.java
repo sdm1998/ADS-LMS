@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group351051.a_hancharyk.lesson01;
 
 import java.math.BigInteger;
 
@@ -18,11 +18,8 @@ public class FiboB {
     public static void main(String[] args) {
 
         //вычисление чисел простым быстрым методом
-
         FiboB fibo = new FiboB();
         int n = 55555;
-
-
         System.out.printf("fastB(%d)=%d \n\t time=%d \n\n", n, fibo.fastB(n), fibo.time());
     }
 
@@ -40,9 +37,19 @@ public class FiboB {
 
     BigInteger fastB(Integer n) {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
+        BigInteger[] cache = new BigInteger[2];
+        cache[0] = BigInteger.ZERO;
+        cache[1] = BigInteger.ONE;
 
+        for (int i = 2; i <= n; i++) {
+            cache[i%2] = cache[0].add(cache[1]);
+            //При i=2 устареет 0-й элемент
+            //При i=3 в 0 будет свежий элемент (обновили его на предыдущей итерации), а в 1 -- ещё старый
+            //При i=4 последним элементом мы обновляли cache[1], значит ненужное старьё сейчас в cache[0]
+            //Интуитивно понятно, что так будет продолжаться и дальше
+        }
 
-            return  BigInteger.ZERO;
+            return  cache[n%2];
     }
 
 }
