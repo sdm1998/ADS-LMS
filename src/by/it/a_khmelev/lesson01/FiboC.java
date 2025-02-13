@@ -6,6 +6,9 @@ package by.it.a_khmelev.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -14,6 +17,8 @@ public class FiboC {
         return System.currentTimeMillis() - startTime;
     }
 
+
+
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
         int n = 10;
@@ -21,11 +26,21 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
+
+
+
     long fasterC(long n, int m) {
+
+
+
+
+       return 0;
+
+
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        //return 0L;
     }
 
 
